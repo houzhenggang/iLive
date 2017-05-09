@@ -37,7 +37,7 @@
     <build>
         <!-- 为jar包取名 -->
         <finalName>ilive</finalName>
-        <directory>C:\output</directory>
+        <!--<directory>C:\output</directory>-->
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
