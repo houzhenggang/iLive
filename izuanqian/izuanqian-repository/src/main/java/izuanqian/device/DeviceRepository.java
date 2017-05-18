@@ -1,10 +1,10 @@
 package izuanqian.device;
 
-import com.google.gson.Gson;
 import izuanqian.DeviceType;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.ignite.Ignite;
+import org.apache.ignite.IgniteCache;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
@@ -15,10 +15,11 @@ import static izuanqian.Key.__;
 /**
  * @author sanlion do
  */
+@Slf4j
 @Component
 public class DeviceRepository {
 
-    @Autowired @Qualifier("db1") private StringRedisTemplate template;
+    @Autowired private Ignite ignite;
 
     /**
      * save device information
@@ -27,16 +28,15 @@ public class DeviceRepository {
      * @param deviceCode
      */
     public void save(DeviceType deviceType, String deviceCode) {
-        template.opsForHash().put(
-                __("device"),
-                deviceCode,
-                new Gson().toJson(DbDeviceInformation.builder().deviceCode(deviceCode).deviceType(deviceType).build()));
+        IgniteCache<String, DbDeviceInformation> deviceCache = ignite.getOrCreateCache("device");
+        deviceCache.put(
+                __("device:{0}", deviceCode),
+                new DbDeviceInformation(deviceType, deviceCode));
     }
 
-    public Optional<DbDeviceInformation> get(String deviceCode) {
-        Object value = template.opsForHash().get("device", deviceCode);
-        return !Objects.isNull(value) ? Optional.of(
-                new Gson().fromJson(String.valueOf(value), DbDeviceInformation.class)
-        ) : Optional.empty();
+    public DbDeviceInformation get(String deviceCode) {
+        String key = __("device:{0}", deviceCode);
+        IgniteCache<String, DbDeviceInformation> deviceCache = ignite.getOrCreateCache("device");
+        return deviceCache.get(key);
     }
 }

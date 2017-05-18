@@ -23,6 +23,9 @@ public class UserPassportService {
 
         // 生成易记的code号
         long code = userPassportRedisRepository.nextCode();
+        for (int i = 0; i < 10000; i++) {
+            System.out.println(String.valueOf(userPassportRedisRepository.nextCode()));
+        }
         // 生成随机ID
         String id = passportGenerator.next(code);
         return new PassportCreateResult(id, code);

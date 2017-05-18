@@ -3,6 +3,7 @@ package izuanqian;
 import com.google.common.hash.Hashing;
 import izuanqian.device.DbDeviceInformation;
 import izuanqian.device.DeviceRepository;
+import izuanqian.im.IMService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,7 @@ public class TokenService {
 
     @Autowired private TokenRepository tokenRepository;
     @Autowired private DeviceRepository deviceRepository;
+    @Autowired private IMService imService;
 
     /**
      * generate token by device
@@ -35,17 +37,12 @@ public class TokenService {
                 .hash().toString().toUpperCase();
         tokenRepository.save(token, deviceCode);
         deviceRepository.save(deviceType, deviceCode);
+        imService.join(token);
         return token;
     }
 
-    public Token get(String token) {
-        DbDeviceInformation device;
-        try {
-            device = deviceRepository.get(
-                    tokenRepository.get(token).get()).get();
-            return new Token(token, device);
-        } catch (Exception e) {
-            throw new BizException(17040601, "please check your token.");
-        }
+    public String get(String token) {
+        String deviceCode = tokenRepository.get(token).get();
+        return deviceCode;
     }
 }

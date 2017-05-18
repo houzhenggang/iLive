@@ -42,30 +42,6 @@ public class OnlineHelpDocConfiguration {
     @Value("${server.port}") private int port;
 
     @Bean
-    public Docket system() {
-        return apidoc(
-                System.class,
-                "system",
-                "系统相关");
-    }
-
-    @Bean
-    public Docket debugging() {
-        return apidoc(
-                Debugging.class,
-                "debugging",
-                "正在调试的接口");
-    }
-
-    @Bean
-    public Docket v100() {
-        return apidoc(
-                V100.class,
-                "1.0.0",
-                "直播核心功能");
-    }
-
-    @Bean
     public Docket all() {
         return apidoc(
                 ApiOperation.class,

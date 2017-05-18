@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.izuanqian:aliim:local">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../maven/repository/com/izuanqian/aliim/local/aliim-local.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../maven/repository/com/izuanqian/aliim/local/aliim-local-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../maven/repository/com/izuanqian/aliim/local/aliim-local-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

@@ -21,7 +21,7 @@ public class Token {
 
     public Token(String token, DbDeviceInformation device) {
         this.token = token;
-        this.deviceType = device.getDeviceType();
+//        this.deviceType = device.getDeviceType();
         this.deviceCode = device.getDeviceCode();
     }
 }
