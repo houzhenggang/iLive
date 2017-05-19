@@ -31,9 +31,9 @@ public class PoiTribeApi {
     @ApiOperation(value = "部落列表", response = TribeArrayVo.class)
     public ApiResponse queryTribes() {
         String title = "苏州观前街矮子馅饼";
-        long a = imTribeService.create(title, "");
+//        long a = imTribeService.create(title, "");
         TribeArrayVo tribeArrayVo = new TribeArrayVo();
-        tribeArrayVo.getTribes().add(new TribeVo(a, title));
+        tribeArrayVo.getTribes().add(new TribeVo(2217303461l, title));
         return new Ok("", tribeArrayVo);
     }
 

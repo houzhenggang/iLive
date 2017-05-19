@@ -1,7 +1,6 @@
 package izuanqian;
 
 import com.google.common.hash.Hashing;
-import izuanqian.device.DbDeviceInformation;
 import izuanqian.device.DeviceRepository;
 import izuanqian.im.IMService;
 import org.springframework.beans.factory.annotation.Autowired;
