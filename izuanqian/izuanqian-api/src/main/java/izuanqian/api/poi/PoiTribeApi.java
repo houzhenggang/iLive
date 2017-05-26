@@ -3,6 +3,7 @@ package izuanqian.api.poi;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import io.swagger.annotations.ApiOperation;
+import izuanqian.MeiTuanWaiMaiPoiRepository;
 import izuanqian.TokenService;
 import izuanqian.im.IMTribeService;
 import izuanqian.response.ApiResponse;
@@ -11,9 +12,12 @@ import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import static izuanqian.ApiHeader.HK_LATITUDE;
+import static izuanqian.ApiHeader.HK_LONGITUDE;
 import static izuanqian.ApiHeader.HK_TOKEN;
 
 /**
@@ -26,6 +30,7 @@ public class PoiTribeApi {
 
     @Autowired private IMTribeService imTribeService;
     @Autowired private TokenService tokenService;
+    @Autowired private MeiTuanWaiMaiPoiRepository meiTuanWaiMaiPoiRepository;
 
     @GetMapping
     @ApiOperation(value = "部落列表", response = TribeArrayVo.class)
@@ -34,6 +39,26 @@ public class PoiTribeApi {
 //        long a = imTribeService.create(title, "");
         TribeArrayVo tribeArrayVo = new TribeArrayVo();
         tribeArrayVo.getTribes().add(new TribeVo(2217303461l, title));
+
+        return new Ok("", tribeArrayVo);
+    }
+
+    @GetMapping("/byMt")
+    @ApiOperation(value = "部落列表", response = TribeArrayVo.class)
+    public ApiResponse queryTribesByMt(
+
+            @RequestHeader(required = false, value = HK_LONGITUDE) double lng,
+            @RequestHeader(required = false, value = HK_LATITUDE) double lat,
+            @RequestParam String address
+    ) throws IOException {
+        String title = "苏州观前街矮子馅饼";
+//        long a = imTribeService.create(title, "");
+        TribeArrayVo tribeArrayVo = new TribeArrayVo();
+        tribeArrayVo.getTribes().add(new TribeVo(2217303461l, title));
+        meiTuanWaiMaiPoiRepository.query(lng, lat, address)
+                .stream().forEach(poi ->
+                tribeArrayVo.getTribes().add(new TribeVo(00L, poi.getTitle(), poi.getLogo()))
+        );
         return new Ok("", tribeArrayVo);
     }
 
@@ -56,6 +81,12 @@ public class PoiTribeApi {
         public TribeVo(long id, String name) {
             this.id = id;
             this.name = name;
+        }
+
+        public TribeVo(long id, String name, String logo) {
+            this.id = id;
+            this.name = name;
+            this.logo = logo;
         }
     }
 
