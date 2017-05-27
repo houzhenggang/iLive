@@ -2,6 +2,7 @@ package izuanqian.api;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import izuanqian.GaoDeDiTuRepository;
 import izuanqian.MeiTuanWaiMaiPoiRepository;
 import izuanqian.PoiSearch;
 import izuanqian.PoiSearchService;
@@ -50,5 +51,18 @@ public class PoiController {
                 meiTuanWaiMaiPoiRepository.query(lng, lat, address));
     }
 
+    @GetMapping("/byGd")
+    @ApiOperation(value = "部落列表<=高德地图，搜索", response = PoiTribeApi.TribeArrayVo.class)
+    public ApiResponse queryTribesByGd(
+            @RequestHeader(required = false, value = HK_LONGITUDE) double lng,
+            @RequestHeader(required = false, value = HK_LATITUDE) double lat,
+            @RequestHeader(required = false, value = "city") String city,
+            @RequestParam(required = false, defaultValue = "美食") String keyword) throws IOException {
+
+        return new Ok("",
+                gaoDeDiTuRepository.search(city, lng, lat, keyword));
+    }
+
     @Autowired private MeiTuanWaiMaiPoiRepository meiTuanWaiMaiPoiRepository;
+    @Autowired private GaoDeDiTuRepository gaoDeDiTuRepository;
 }
