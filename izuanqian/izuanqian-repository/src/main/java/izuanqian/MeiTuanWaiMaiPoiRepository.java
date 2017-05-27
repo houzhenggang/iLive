@@ -7,17 +7,20 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by sanlion on 2017/5/26.
  */
 @Service
 public class MeiTuanWaiMaiPoiRepository {
+
+    @Autowired private StringRedisTemplate template;
 
     public List<DboMeiTuanPoi> query(double lng, double lat, String address) throws IOException {
         Document document
@@ -27,15 +30,21 @@ public class MeiTuanWaiMaiPoiRepository {
                 .data("addr", address)
                 .userAgent("Mozilla")
                 .get();
-        System.out.printf(document.title());
         Elements div = document.getElementsByAttribute("data-title");
         List<DboMeiTuanPoi> pois = new ArrayList<>();
         for (Element element : div) {
-            String poiid = element.attr("data-poiid");
+            String id = element.attr("data-poiid");
             String title = element.attr("data-title");
             String logo = element.getElementsByTag("img").attr("data-src");
-            pois.add(new DboMeiTuanPoi(poiid, title, logo));
+            pois.add(new DboMeiTuanPoi(id, title, logo));
+            template.opsForHash().putAll(
+                    "poi:untreated:meituanwaimai:" + id,
+                    new HashMap<String, Object>() {{
+                        put("title", title);
+                        put("logo", logo);
+                    }});
         }
+
         return pois;
     }
 
