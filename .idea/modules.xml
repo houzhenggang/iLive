@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/izuanqian/izuanqian-api/izuanqian-api.iml" filepath="$PROJECT_DIR$/izuanqian/izuanqian-api/izuanqian-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/izuanqian/izuanqian-biz/izuanqian-biz.iml" filepath="$PROJECT_DIR$/izuanqian/izuanqian-biz/izuanqian-biz.iml" />
+      <module fileurl="file://$PROJECT_DIR$/izuanqian/izuanqian-client/izuanqian-client.iml" filepath="$PROJECT_DIR$/izuanqian/izuanqian-client/izuanqian-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/izuanqian/izuanqian-common/izuanqian-common.iml" filepath="$PROJECT_DIR$/izuanqian/izuanqian-common/izuanqian-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/izuanqian/izuanqian-repository/izuanqian-repository.iml" filepath="$PROJECT_DIR$/izuanqian/izuanqian-repository/izuanqian-repository.iml" />
+      <module fileurl="file://$PROJECT_DIR$/izuanqian/izuanqian-webapi.iml" filepath="$PROJECT_DIR$/izuanqian/izuanqian-webapi.iml" />
+    </modules>
+  </component>
+</project>

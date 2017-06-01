@@ -6,14 +6,12 @@ import io.swagger.annotations.ApiOperation;
 import izuanqian.DeviceType;
 import izuanqian.TokenService;
 import izuanqian.api.token.o.vo.TokenVo;
-import izuanqian.openmessage.OpenNotify4AndroidClient;
-import izuanqian.openmessage.OpenNotify4iOSClient;
+//import izuanqian.openmessage.OpenNotify4AndroidClient;
+//import izuanqian.openmessage.OpenNotify4iOSClient;
 import izuanqian.response.ApiResponse;
 import izuanqian.response.Ok;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.Arrays;
 
 import static izuanqian.ApiHeader.*;
 
@@ -26,8 +24,8 @@ import static izuanqian.ApiHeader.*;
 public class TokenApi {
 
     @Autowired private TokenService tokenService;
-    @Autowired private OpenNotify4AndroidClient openNotify4AndroidClient;
-    @Autowired private OpenNotify4iOSClient openNotify4iOSClient;
+//    @Autowired private OpenNotify4AndroidClient openNotify4AndroidClient;
+//    @Autowired private OpenNotify4iOSClient openNotify4iOSClient;
 
     @PostMapping
     @ApiOperation(value = "apply token", response = String.class)
