@@ -32,7 +32,7 @@ import static izuanqian.ApiHeader.*;
 public class TokenApi {
 
     @Autowired private TokenService tokenService;
-//    @Autowired private OpenNotify4AndroidClient openNotify4AndroidClient;
+    //    @Autowired private OpenNotify4AndroidClient openNotify4AndroidClient;
 //    @Autowired private OpenNotify4iOSClient openNotify4iOSClient;
     @Autowired private AndroidMiPushClient androidMiPushClient;
 
@@ -46,7 +46,8 @@ public class TokenApi {
 //        openNotify4AndroidClient.notice("哈哈", "看到就证明我成功了", Arrays.asList(pushDeviceCode));
 //        openNotify4iOSClient.notice("ios看看行不行", Arrays.asList(pushDeviceCode));
         log.error(pushDeviceCode);
-        androidMiPushClient.demo(Arrays.asList(pushDeviceCode));
+        androidMiPushClient.push(
+                Arrays.asList(pushDeviceCode), "欢迎", "登陆令牌申请成功", token);
         return new Ok("", token);
     }
 

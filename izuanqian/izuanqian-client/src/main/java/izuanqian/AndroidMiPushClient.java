@@ -1,5 +1,6 @@
 package izuanqian;
 
+import com.google.gson.Gson;
 import com.xiaomi.xmpush.server.Message;
 import com.xiaomi.xmpush.server.Sender;
 import org.json.simple.parser.ParseException;
@@ -18,15 +19,23 @@ public class AndroidMiPushClient {
 
     @Autowired @Qualifier("androidSender") private Sender androidSender;
 
-    public void demo(List<String> pushDeviceCodes) throws IOException, ParseException {
-
-        String payload = "payload";
-        String title = "title";
-        String description = "描述";
+    /**
+     * 群发
+     *
+     * @param pushDeviceCodes
+     * @param title
+     * @param description
+     * @param payload
+     * @throws IOException
+     * @throws ParseException
+     */
+    public void push(
+            List<String> pushDeviceCodes, String title, String description, Object payload)
+            throws IOException, ParseException {
         Message message = new Message.Builder()
                 .title(title)
                 .description(description)
-                .payload(payload)
+                .payload(new Gson().toJson(payload))
                 .build();
         androidSender.send(message, pushDeviceCodes, 1);
     }
