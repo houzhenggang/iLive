@@ -11,6 +11,7 @@ import izuanqian.api.token.o.vo.TokenVo;
 //import izuanqian.openmessage.OpenNotify4iOSClient;
 import izuanqian.response.ApiResponse;
 import izuanqian.response.Ok;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ignite.IgniteMessaging;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ import static izuanqian.ApiHeader.*;
 /**
  * Created by PC on 2017/4/5.
  */
+@Slf4j
 @RestController
 @RequestMapping("/api/token")
 @Api(tags = "token", description = "apply token, and get token info")
@@ -43,6 +45,7 @@ public class TokenApi {
         String token = tokenService.generateToken(deviceType, deviceCode);
 //        openNotify4AndroidClient.notice("哈哈", "看到就证明我成功了", Arrays.asList(pushDeviceCode));
 //        openNotify4iOSClient.notice("ios看看行不行", Arrays.asList(pushDeviceCode));
+        log.error(pushDeviceCode);
         androidMiPushClient.demo(Arrays.asList(pushDeviceCode));
         return new Ok("", token);
     }
