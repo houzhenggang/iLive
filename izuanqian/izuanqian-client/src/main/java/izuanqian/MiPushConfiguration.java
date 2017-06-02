@@ -19,6 +19,6 @@ public class MiPushConfiguration {
     public Sender androidSender(){
         log.info("小米推送（Android）已准备好。");
         Constants.useOfficial();
-        return new Sender("5721757891937");
+        return new Sender("IaXT5DFzHkIiJMs5Aczz+Q==");
     }
 }
