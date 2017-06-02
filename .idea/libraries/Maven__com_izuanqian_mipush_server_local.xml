@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.izuanqian.mipush:server:local">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../maven/repository/com/izuanqian/mipush/server/local/server-local.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../maven/repository/com/izuanqian/mipush/server/local/server-local-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../maven/repository/com/izuanqian/mipush/server/local/server-local-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

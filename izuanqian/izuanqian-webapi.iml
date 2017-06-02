@@ -162,5 +162,7 @@
     <orderEntry type="library" name="Maven: org.springframework.amqp:spring-amqp:1.7.0.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: com.rabbitmq:amqp-client:4.0.1" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.integration:spring-integration-amqp:4.3.7.RELEASE" level="project" />
+    <orderEntry type="library" name="Maven: com.izuanqian.mipush:json-simple:local" level="project" />
+    <orderEntry type="library" name="Maven: com.izuanqian.mipush:server:local" level="project" />
   </component>
 </module>

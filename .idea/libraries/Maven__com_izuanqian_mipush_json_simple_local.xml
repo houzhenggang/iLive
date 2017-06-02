@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Maven: com.izuanqian.mipush:json-simple:local">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../maven/repository/com/izuanqian/mipush/json-simple/local/json-simple-local.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$PROJECT_DIR$/../../maven/repository/com/izuanqian/mipush/json-simple/local/json-simple-local-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$PROJECT_DIR$/../../maven/repository/com/izuanqian/mipush/json-simple/local/json-simple-local-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

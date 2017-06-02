@@ -1,6 +1,7 @@
 package izuanqian;
 
 import org.apache.ignite.Ignite;
+import org.apache.ignite.IgniteMessaging;
 import org.apache.ignite.Ignition;
 import org.apache.ignite.configuration.IgniteConfiguration;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +16,7 @@ public class IgniteCacheConfiguration {
     @Bean
     public Ignite ignite() {
         IgniteConfiguration configuration = new IgniteConfiguration();
+        configuration.setPeerClassLoadingEnabled(true);
         return Ignition.start(configuration);
     }
 }
