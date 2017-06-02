@@ -36,6 +36,7 @@ public class AndroidMiPushClient {
                 .title(title)
                 .description(description)
                 .payload(new Gson().toJson(payload))
+                .extra("ticker", "This is a ticker text.")
                 .build();
         androidSender.send(message, pushDeviceCodes, 1);
     }
