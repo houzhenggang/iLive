@@ -28,7 +28,9 @@ public class TokenRepository {
     public void save(String token, String deviceCode) {
         clear(deviceCode);
         String key = __("token:{0}:device", token);
-        tokenRedisTemplate.opsForValue().set(key, deviceCode);
+        ValueOperations<String, String> operation = tokenRedisTemplate.opsForValue();
+        operation.set(key, deviceCode);
+        operation.set(__("token:device:{0}", deviceCode), token);
     }
 
     public String getDeviceCode(String token) {
