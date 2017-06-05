@@ -41,7 +41,9 @@ public class GaoDeDiTuRepository {
         List<DboGaoDeDiTuPoi> pois = vo.getData().getPoi_list().stream()
                 .map(poi -> new DboGaoDeDiTuPoi(poi))
                 .collect(Collectors.toList());
-        cache(pois);
+        if (!Objects.isNull(pois)) {
+            cache(pois);
+        }
         return pois;
     }
 
