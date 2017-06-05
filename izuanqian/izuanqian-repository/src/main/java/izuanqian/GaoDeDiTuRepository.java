@@ -4,6 +4,7 @@ import izuanqian.amap.GaoDeDiTuClient;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Async;
@@ -22,7 +23,9 @@ import java.util.stream.Collectors;
 public class GaoDeDiTuRepository {
 
     @Autowired private GaoDeDiTuClient gaoDeDiTuClient;
-    @Autowired private StringRedisTemplate template;
+    @Autowired
+    @Qualifier("poiRedisTemplate")
+    private StringRedisTemplate template;
 
     public List<DboGaoDeDiTuPoi> search(String city, double lng, double lat, String keyword) {
         String geoObj = new StringBuffer(String.valueOf(lng))

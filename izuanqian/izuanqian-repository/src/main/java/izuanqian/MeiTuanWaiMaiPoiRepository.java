@@ -8,6 +8,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +21,9 @@ import java.util.*;
 @Service
 public class MeiTuanWaiMaiPoiRepository {
 
-    @Autowired private StringRedisTemplate template;
+    @Autowired
+    @Qualifier("poiRedisTemplate")
+    private StringRedisTemplate template;
 
     public List<DboMeiTuanPoi> query(double lng, double lat, String address) throws IOException {
         Document document
