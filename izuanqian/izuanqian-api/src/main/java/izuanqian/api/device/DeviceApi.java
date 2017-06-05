@@ -2,8 +2,8 @@ package izuanqian.api.device;
 
 import io.swagger.annotations.ApiOperation;
 import izuanqian.DeviceService;
+import izuanqian.api.device.o.AppBackStateUpdate;
 import izuanqian.response.Api;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,16 +39,10 @@ public class DeviceApi {
         return new Api.Ok();
     }
 
-
-    public static enum AppBackState {
-
-        Background, Foreground
+    @GetMapping
+    @ApiOperation(value = "查看设备信息", response = DeviceService.Device.class)
+    public Api device(
+            @RequestHeader(HK_DEVICE_CODE) String deviceCode) {
+        return new Api.Ok("", deviceService.byCode(deviceCode));
     }
-
-    @Getter
-    public static class AppBackStateUpdate {
-
-        private AppBackState state;
-    }
-
 }
