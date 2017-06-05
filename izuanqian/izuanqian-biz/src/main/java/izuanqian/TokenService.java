@@ -1,12 +1,15 @@
 package izuanqian;
 
+import com.google.common.base.Strings;
 import com.google.common.hash.Hashing;
+import izuanqian.device.DbDeviceInformation;
 import izuanqian.device.DeviceRepository;
 import izuanqian.im.IMService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.nio.charset.Charset;
+import java.util.Objects;
 import java.util.UUID;
 
 /**
@@ -40,8 +43,15 @@ public class TokenService {
         return token;
     }
 
-    public String get(String token) {
-        String deviceCode = tokenRepository.get(token).get();
-        return deviceCode;
+    public DbDeviceInformation get(String token) {
+        String deviceCode = tokenRepository.getDeviceCode(token);
+        if (Strings.isNullOrEmpty(deviceCode)) {
+            throw new BizException(17060501, "登陆令牌加载失败");
+        }
+        DbDeviceInformation device = deviceRepository.get(deviceCode);
+        if (Objects.isNull(device)) {
+            throw new BizException(17060502, "在线设备信息加载失败");
+        }
+        return device;
     }
 }

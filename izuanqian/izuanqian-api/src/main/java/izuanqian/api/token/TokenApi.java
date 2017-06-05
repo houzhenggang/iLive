@@ -7,12 +7,9 @@ import izuanqian.AndroidMiPushClient;
 import izuanqian.DeviceType;
 import izuanqian.TokenService;
 import izuanqian.api.token.o.vo.TokenVo;
-//import izuanqian.openmessage.OpenNotify4AndroidClient;
-//import izuanqian.openmessage.OpenNotify4iOSClient;
 import izuanqian.response.ApiResponse;
 import izuanqian.response.Ok;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ignite.IgniteMessaging;
 import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +18,9 @@ import java.io.IOException;
 import java.util.Arrays;
 
 import static izuanqian.ApiHeader.*;
+
+//import izuanqian.openmessage.OpenNotify4AndroidClient;
+//import izuanqian.openmessage.OpenNotify4iOSClient;
 
 /**
  * Created by PC on 2017/4/5.

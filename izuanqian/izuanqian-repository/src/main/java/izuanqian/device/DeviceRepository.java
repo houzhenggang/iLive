@@ -2,13 +2,14 @@ package izuanqian.device;
 
 import izuanqian.DeviceType;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ignite.Ignite;
-import org.apache.ignite.IgniteCache;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.HashOperations;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.Objects;
-import java.util.Optional;
+import java.util.HashMap;
+import java.util.Map;
 
 import static izuanqian.Key.__;
 
@@ -19,7 +20,18 @@ import static izuanqian.Key.__;
 @Component
 public class DeviceRepository {
 
-    @Autowired private Ignite ignite;
+    /*
+    以hash的结构进行存储
+
+    device:online:code =>
+            type
+            code
+            back
+     */
+
+    @Autowired
+    @Qualifier("tokenRedisTemplate")
+    private StringRedisTemplate tokenRedisTemplate;
 
     /**
      * save device information
@@ -28,15 +40,49 @@ public class DeviceRepository {
      * @param deviceCode
      */
     public void save(DeviceType deviceType, String deviceCode) {
-        IgniteCache<String, DbDeviceInformation> deviceCache = ignite.getOrCreateCache("device");
-        deviceCache.put(
-                __("device:{0}", deviceCode),
-                new DbDeviceInformation(deviceType, deviceCode));
+        HashOperations<String, String, Object> hash = tokenRedisTemplate.opsForHash();
+        String key = __("device:online:{0}", deviceCode);
+        hash.putAll(key, new HashMap<String, Object>() {{
+            put("type", deviceType.name());
+            put("code", deviceCode);
+        }});
+    }
+
+    public void updateBackState(String deviceCode, boolean isBack) {
+        HashOperations<String, String, Object> hash = tokenRedisTemplate.opsForHash();
+        String key = __("device:online:{0}", deviceCode);
+        hash.put(key, "back", isBack);
     }
 
     public DbDeviceInformation get(String deviceCode) {
-        String key = __("device:{0}", deviceCode);
-        IgniteCache<String, DbDeviceInformation> deviceCache = ignite.getOrCreateCache("device");
-        return deviceCache.get(key);
+        HashOperations<String, String, Object> hash = tokenRedisTemplate.opsForHash();
+        String key = __("device:online:{0}", deviceCode);
+        Map<String, Object> entries = hash.entries(key);
+        return toDevice(entries);
+    }
+
+    /**
+     * 将map转化为对象
+     *
+     * @param entries
+     * @return
+     */
+    private DbDeviceInformation toDevice(Map<String, Object> entries) {
+        DbDeviceInformation device = new DbDeviceInformation();
+        entries.forEach(
+                (key, value) -> {
+                    switch (key) {
+                        case "type":
+                            device.setDeviceType(DeviceType.valueOf(key));
+                            break;
+                        case "code":
+                            device.setDeviceCode(String.valueOf(value));
+                            break;
+                        case "back":
+                            device.setBack((Boolean) value);
+                            break;
+                    }
+                });
+        return device;
     }
 }

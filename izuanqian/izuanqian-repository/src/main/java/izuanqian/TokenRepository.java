@@ -1,42 +1,50 @@
 package izuanqian;
 
 import com.google.common.base.Strings;
-import org.apache.ignite.Ignite;
-import org.apache.ignite.IgniteCache;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
 
 import static izuanqian.Key.__;
 
 /**
  * @author sanlion do
  */
+@Slf4j
 @Service
 public class TokenRepository {
 
-    @Autowired private Ignite ignite;
+    /*
+    cache
+
+    token队列只保存device信息的索引
+     */
+
+    @Autowired @Qualifier("tokenRedisTemplate") private StringRedisTemplate tokenRedisTemplate;
 
     public void save(String token, String deviceCode) {
         clear(deviceCode);
-        ignite.getOrCreateCache("token").put(__("token:{0}", token), deviceCode);
+        String key = __("token:{0}:device", token);
+        tokenRedisTemplate.opsForValue().set(key, deviceCode);
     }
 
-    public Optional<String> get(String token) {
-        IgniteCache<String, String> cache = ignite.getOrCreateCache("token");
-        String key = __("token:{0}", token);
-        String deviceCode = cache.get(key);
-        return Optional.of(deviceCode);
+    public String getDeviceCode(String token) {
+        ValueOperations<String, String> operation = tokenRedisTemplate.opsForValue();
+        String key = __("token:{0}:device", token);
+        return operation.get(key);
     }
+
 
     private void clear(String deviceCode) {
-        IgniteCache<String, String> cache = ignite.getOrCreateCache("token");
-        String key = __("device:{0}", deviceCode);
-        String token = cache.get(key);
+        ValueOperations<String, String> operation = tokenRedisTemplate.opsForValue();
+        String token = operation.get(__("token:device:{0}", deviceCode));
         if (!Strings.isNullOrEmpty(token)) {
-            cache.remove(__("token:{0}", token));
-            cache.remove(__("device:{0}", deviceCode));
+            // 清除当前token，及device信息
+            tokenRedisTemplate.delete(__("token:device:{0}", deviceCode));
+            tokenRedisTemplate.delete(__("token:{0}:device", token));
         }
     }
 

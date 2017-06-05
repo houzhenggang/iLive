@@ -14,11 +14,13 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class DbDeviceInformation implements Serializable{
 
-//    private DeviceType deviceType;
+    private DeviceType deviceType;
     private String deviceCode;
+    private boolean back; // 是否在后台运行
 
     public DbDeviceInformation(DeviceType deviceType, String deviceCode) {
-//        this.deviceType = deviceType;
+        this.deviceType = deviceType;
         this.deviceCode = deviceCode;
+        this.back = false;
     }
 }
