@@ -2,6 +2,7 @@ package izuanqian;
 
 import izuanqian.amap.GaoDeDiTuClient;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,6 +20,7 @@ import java.util.stream.Collectors;
 /**
  * Created by sanlion on 2017/5/27.
  */
+@Slf4j
 @Service
 public class GaoDeDiTuRepository {
 
@@ -42,6 +44,7 @@ public class GaoDeDiTuRepository {
                 .map(poi -> new DboGaoDeDiTuPoi(poi))
                 .collect(Collectors.toList());
         if (!Objects.isNull(pois)) {
+            log.error("{}", pois);
             cache(pois);
         }
         return pois;
