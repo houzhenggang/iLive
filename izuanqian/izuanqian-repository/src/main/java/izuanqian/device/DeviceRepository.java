@@ -42,9 +42,9 @@ public class DeviceRepository {
      */
     public void save(
             DeviceType deviceType, String deviceCode, String pushDeviceCode) {
-        HashOperations<String, String, Object> hash = tokenRedisTemplate.opsForHash();
+        HashOperations<String, String, String> hash = tokenRedisTemplate.opsForHash();
         String key = __("device:online:{0}", deviceCode);
-        hash.putAll(key, new HashMap<String, Object>() {{
+        hash.putAll(key, new HashMap<String, String>() {{
             put("type", deviceType.name());
             put("code", deviceCode);
             put("pushCode", pushDeviceCode);
@@ -52,15 +52,15 @@ public class DeviceRepository {
     }
 
     public void updateBackState(String deviceCode, boolean isBack) {
-        HashOperations<String, String, Object> hash = tokenRedisTemplate.opsForHash();
+        HashOperations<String, String, String> hash = tokenRedisTemplate.opsForHash();
         String key = __("device:online:{0}", deviceCode);
-        hash.put(key, "back", isBack);
+        hash.put(key, "back", String.valueOf(isBack));
     }
 
     public DbDeviceInformation get(String deviceCode) {
-        HashOperations<String, String, Object> hash = tokenRedisTemplate.opsForHash();
+        HashOperations<String, String, String> hash = tokenRedisTemplate.opsForHash();
         String key = __("device:online:{0}", deviceCode);
-        Map<String, Object> entries = hash.entries(key);
+        Map<String, String> entries = hash.entries(key);
         return toDevice(entries);
     }
 
@@ -70,22 +70,22 @@ public class DeviceRepository {
      * @param entries
      * @return
      */
-    private DbDeviceInformation toDevice(Map<String, Object> entries) {
+    private DbDeviceInformation toDevice(Map<String, String> entries) {
         DbDeviceInformation device = new DbDeviceInformation();
         entries.forEach(
                 (key, value) -> {
                     switch (key) {
                         case "type":
-                            device.setDeviceType(DeviceType.valueOf(key));
+                            device.setDeviceType(DeviceType.valueOf(value));
                             break;
                         case "code":
-                            device.setDeviceCode(String.valueOf(value));
+                            device.setDeviceCode(value);
                             break;
                         case "pushCode":
-                            device.setPushDeviceCode(String.valueOf(value));
+                            device.setPushDeviceCode(value);
                             break;
                         case "back":
-                            device.setBack((Boolean) value);
+                            device.setBack(Boolean.valueOf(value));
                             break;
                     }
                 });
