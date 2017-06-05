@@ -3,6 +3,7 @@ package izuanqian.api.token;
 import com.taobao.api.ApiException;
 import io.swagger.annotations.ApiOperation;
 import izuanqian.AndroidMiPushClient;
+import izuanqian.DeviceService;
 import izuanqian.DeviceType;
 import izuanqian.TokenService;
 import izuanqian.response.Api;
@@ -30,6 +31,7 @@ public class TokenApi {
 
     @Autowired private TokenService tokenService;
     @Autowired private AndroidMiPushClient androidMiPushClient;
+    @Autowired private DeviceService deviceService;
 
     @PostMapping
     @ApiOperation(value = "申请令牌", response = String.class)
@@ -38,7 +40,7 @@ public class TokenApi {
             @RequestHeader(HK_DEVICE_CODE) String deviceCode,
             @RequestHeader(HK_PUSH_DEVICE_CODE) String pushDeviceCode) throws ApiException, IOException, ParseException {
         String token = tokenService.generateToken(deviceType, deviceCode);
-        log.error(pushDeviceCode);
+        deviceService.save(deviceType, deviceCode, pushDeviceCode);
         androidMiPushClient.push(
                 Arrays.asList(pushDeviceCode), "欢迎", "登陆令牌申请成功", token);
         return new Api.Ok("", token);
