@@ -1,10 +1,8 @@
 package izuanqian.api;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import izuanqian.FileService;
-import izuanqian.response.ApiResponse;
-import izuanqian.response.Ok;
+import izuanqian.response.Api;
 import izuanqian.user.UserPassportService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,17 +20,17 @@ import java.io.IOException;
 @Slf4j
 @RestController
 @RequestMapping("/image")
-@Api(tags = "upload", description = "file upload")
+@io.swagger.annotations.Api(tags = "upload", description = "file upload")
 public class UploadApi {
 
     @Autowired private FileService fileService;
 
     @Autowired private UserPassportService userPassportService;
     @PostMapping
-    @ApiOperation(value = "upload image, one by one", response = Ok.class)
-    public ApiResponse uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
+    @ApiOperation(value = "upload image, one by one", response = Api.Ok.class)
+    public Api uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         userPassportService.create();
-        return new Ok("", fileService.save(file).toString());
+        return new Api.Ok("", fileService.save(file).toString());
     }
 
 }

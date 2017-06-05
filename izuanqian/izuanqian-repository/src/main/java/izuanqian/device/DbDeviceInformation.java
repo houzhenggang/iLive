@@ -1,7 +1,6 @@
 package izuanqian.device;
 
 import izuanqian.DeviceType;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -16,6 +15,7 @@ public class DbDeviceInformation implements Serializable{
 
     private DeviceType deviceType;
     private String deviceCode;
+    private String pushDeviceCode;
     private boolean back; // 是否在后台运行
 
     public DbDeviceInformation(DeviceType deviceType, String deviceCode) {

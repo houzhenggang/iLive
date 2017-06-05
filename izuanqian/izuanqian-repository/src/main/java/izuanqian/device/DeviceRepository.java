@@ -38,13 +38,16 @@ public class DeviceRepository {
      *
      * @param deviceType
      * @param deviceCode
+     * @param pushDeviceCode
      */
-    public void save(DeviceType deviceType, String deviceCode) {
+    public void save(
+            DeviceType deviceType, String deviceCode, String pushDeviceCode) {
         HashOperations<String, String, Object> hash = tokenRedisTemplate.opsForHash();
         String key = __("device:online:{0}", deviceCode);
         hash.putAll(key, new HashMap<String, Object>() {{
             put("type", deviceType.name());
             put("code", deviceCode);
+            put("pushCode", pushDeviceCode);
         }});
     }
 
@@ -77,6 +80,9 @@ public class DeviceRepository {
                             break;
                         case "code":
                             device.setDeviceCode(String.valueOf(value));
+                            break;
+                        case "pushCode":
+                            device.setPushDeviceCode(String.valueOf(value));
                             break;
                         case "back":
                             device.setBack((Boolean) value);
