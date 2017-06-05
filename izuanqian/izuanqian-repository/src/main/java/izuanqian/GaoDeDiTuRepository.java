@@ -1,9 +1,10 @@
 package izuanqian;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import izuanqian.amap.GaoDeDiTuClient;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.HashOperations;
@@ -12,8 +13,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -52,21 +53,13 @@ public class GaoDeDiTuRepository {
 
     @Async
     private void cache(List<DboGaoDeDiTuPoi> pois) {
-
         HashOperations<String, Object, Object> option = template.opsForHash();
-        pois.stream().forEach(poi ->
-                option.putAll(
-                        "poi:untreated:gaodeditu:" + poi.getId(),
-                        new HashMap<String, Object>() {{
-                            put("title", poi.getTitle());
-                            put("logo", poi.getLogo());
-                            put("tel", poi.getTel());
-                            put("lng", poi.getLng());
-                            put("lat", poi.getLat());
-                            put("address", poi.getAddress());
-                        }})
+        pois.stream().forEach(poi -> {
+                    Map map = new Gson().fromJson(new Gson().toJson(poi), Map.class);
+                    option.putAll(
+                            "poi:untreated:gaodeditu:" + poi.getId(), map);
+                }
         );
-
     }
 
     @Data
