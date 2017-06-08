@@ -1,6 +1,7 @@
 package izuanqian.device;
 
 import com.google.common.base.Strings;
+import com.google.gson.Gson;
 import izuanqian.DeviceType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,12 +52,13 @@ public class DeviceRepository {
                 .put(
                         key,
                         deviceCode,
-                        new CachedOnlineDevice() {{
-                            setCode(deviceCode);
-                            setPushCode(pushDeviceCode);
-                            setState(DbDeviceInformation.DeviceState.Foreground);
-                            setType(deviceType);
-                        }});
+                        new Gson().toJson(
+                                new CachedOnlineDevice() {{
+                                    setCode(deviceCode);
+                                    setPushCode(pushDeviceCode);
+                                    setState(DbDeviceInformation.DeviceState.Foreground);
+                                    setType(deviceType);
+                                }}));
 
         // todo db不保存即时性信息：pushCode，state
         deviceMapper.saveDevice(deviceType.getCode(), deviceCode);
@@ -64,13 +66,14 @@ public class DeviceRepository {
 
     public void updateBackState(String deviceCode, DbDeviceInformation.DeviceState state) {
         String key = "device:online";
-        HashOperations<String, String, CachedOnlineDevice> hash = tokenRedisTemplate.opsForHash();
-        CachedOnlineDevice cachedOnlineDevice = hash.get(key, deviceCode);
+        HashOperations<String, String, String> hash = tokenRedisTemplate.opsForHash();
+        String value = hash.get(key, deviceCode);
+        CachedOnlineDevice cachedOnlineDevice = new Gson().fromJson(value, CachedOnlineDevice.class);
         if (Objects.isNull(cachedOnlineDevice)) {
             return;
         }
         cachedOnlineDevice.setState(state);
-        hash.put(key, deviceCode, cachedOnlineDevice);
+        hash.put(key, deviceCode, new Gson().toJson(cachedOnlineDevice));
     }
 
     /**
@@ -81,8 +84,9 @@ public class DeviceRepository {
      */
     public DbDeviceInformation getOnlineDevice(String deviceCode) {
         String key = "device:online";
-        HashOperations<String, String, CachedOnlineDevice> hash = tokenRedisTemplate.opsForHash();
-        CachedOnlineDevice cachedOnlineDevice = hash.get(key, deviceCode);
+        HashOperations<String, String, String> hash = tokenRedisTemplate.opsForHash();
+        String value = hash.get(key, deviceCode);
+        CachedOnlineDevice cachedOnlineDevice = new Gson().fromJson(value, CachedOnlineDevice.class);
         return Objects.nonNull(cachedOnlineDevice) ? new DbDeviceInformation(cachedOnlineDevice) : null;
     }
 
