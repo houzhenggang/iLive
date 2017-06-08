@@ -197,7 +197,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>1.3.0.RELEASE</version>
                 <configuration>
-                    <mainClass>lovedou.Application</mainClass>
+                    <mainClass>izuanqian.Application</mainClass>
                 </configuration>
                 <executions>
                     <execution>
