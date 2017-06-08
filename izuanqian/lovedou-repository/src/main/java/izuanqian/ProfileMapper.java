@@ -1,6 +1,6 @@
 package izuanqian;
 
-import izuanqian.user.dbo.DbUserProfile;
+import izuanqian.user.dbo.DbProfile;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -14,7 +14,7 @@ public interface ProfileMapper {
      * @param deviceCode
      * @return
      */
-    List<DbUserProfile> queryByDeviceCode(String deviceCode);
+    List<DbProfile> queryByDeviceCode(String deviceCode);
 
     /**
      * 初始化插入profile

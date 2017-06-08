@@ -1,6 +1,6 @@
 package izuanqian.user;
 
-import izuanqian.user.dbo.DbUserProfile;
+import izuanqian.user.dbo.DbProfile;
 import izuanqian.user.dbo.DboMobile;
 import izuanqian.user.domain.Mobile;
 import izuanqian.user.domain.UserProfile;
@@ -43,9 +43,9 @@ public class UserProfileService {
     }
 
     public List<UserProfile> listUserProfiles(String deviceCode) {
-        List<DbUserProfile> dbUserProfiles = userProfileRepository.listUserProfileArray(deviceCode);
-        return dbUserProfiles.stream()
-                .map(dbUserProfile -> new UserProfile(dbUserProfile)).collect(Collectors.toList());
+        List<DbProfile> dbProfiles = userProfileRepository.listUserProfileArray(deviceCode);
+        return dbProfiles.stream()
+                .map(dbProfile -> new UserProfile(dbProfile)).collect(Collectors.toList());
     }
 
     /**
