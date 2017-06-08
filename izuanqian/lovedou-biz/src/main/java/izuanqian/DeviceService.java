@@ -44,12 +44,12 @@ public class DeviceService {
     }
 
     public void updateAppState2Background(String token) {
-        String deviceCode = tokenService.token(token);
+        String deviceCode = tokenService.get(token);
         deviceRepository.updateBackState(deviceCode, true);
     }
 
     public void updateAppState2Foreground(String token) {
-        String deviceCode = tokenService.token(token);
+        String deviceCode = tokenService.get(token);
         deviceRepository.updateBackState(deviceCode, false);
     }
 
@@ -77,7 +77,7 @@ public class DeviceService {
     }
 
     public void bindMobile(String token, String mobile) {
-        String deviceCode = tokenService.token(token);
+        String deviceCode = tokenService.get(token);
         long mobileId = userPassportService.bindMobile(deviceCode, mobile);
         // 并且指定为当前设备的默认号码
         specifyCurrentMobile(token, mobileId);

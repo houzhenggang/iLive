@@ -167,10 +167,5 @@
     <orderEntry type="library" name="Maven: org.jsoup:jsoup:1.10.2" level="project" />
     <orderEntry type="library" name="Maven: com.izuanqian.mipush:json-simple:local" level="project" />
     <orderEntry type="library" name="Maven: com.izuanqian.mipush:server:local" level="project" />
-    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-jre8:1.1.2-4" level="project" />
-    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib-jre7:1.1.2-4" level="project" />
-    <orderEntry type="library" scope="TEST" name="Maven: org.jetbrains.kotlin:kotlin-test:1.1.2-4" level="project" />
-    <orderEntry type="library" name="Maven: org.jetbrains.kotlin:kotlin-stdlib:1.1.2-4" level="project" />
-    <orderEntry type="library" name="Maven: org.jetbrains:annotations:13.0" level="project" />
   </component>
 </module>

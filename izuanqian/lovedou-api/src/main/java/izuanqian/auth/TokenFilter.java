@@ -45,7 +45,7 @@ public class TokenFilter implements Filter {
         }
 
         try {
-            tokenService.token(
+            tokenService.get(
                     request.getHeader(ApiHeader.HK_TOKEN));
         } catch (Exception e) {
             HttpServletResponse response = (HttpServletResponse) resp;
