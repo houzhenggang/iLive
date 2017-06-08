@@ -4,17 +4,17 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
-    <groupId>izuanqian</groupId>
-    <artifactId>izuanqian-webapi</artifactId>
+    <groupId>lovedou</groupId>
+    <artifactId>lovedou-webapi</artifactId>
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
     <modules>
-        <module>izuanqian-api</module>
-        <module>izuanqian-biz</module>
-        <module>izuanqian-repository</module>
-        <module>izuanqian-client</module>
-        <module>izuanqian-common</module>
+        <module>lovedou-api</module>
+        <module>lovedou-biz</module>
+        <module>lovedou-repository</module>
+        <module>lovedou-client</module>
+        <module>lovedou-common</module>
     </modules>
 
     <parent>
@@ -197,7 +197,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>1.3.0.RELEASE</version>
                 <configuration>
-                    <mainClass>izuanqian.Application</mainClass>
+                    <mainClass>lovedou.Application</mainClass>
                 </configuration>
                 <executions>
                     <execution>
