@@ -17,6 +17,7 @@ public class DbDeviceInformation implements Serializable{
     private String deviceCode;
     private String pushDeviceCode;
     private boolean back; // 是否在后台运行
+    private long mobile;
 
     public DbDeviceInformation(DeviceType deviceType, String deviceCode) {
         this.deviceType = deviceType;

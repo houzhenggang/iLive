@@ -1,5 +1,6 @@
 package izuanqian.device;
 
+import com.google.common.base.Strings;
 import izuanqian.DeviceType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import static izuanqian.Key.__;
+import static izuanqian.Times.__;
 
 /**
  * @author sanlion do
@@ -64,6 +66,19 @@ public class DeviceRepository {
         return toDevice(entries);
     }
 
+    public void bindCurrentMobile(String deviceCode, long mobileId) {
+        HashOperations<String, String, String> hash = tokenRedisTemplate.opsForHash();
+        String key = __("device:online:{0}", deviceCode);
+        hash.put(key, "mobile", String.valueOf(mobileId));
+    }
+
+    public Long getCurrentMobileId(String deviceCode) {
+        String key = __("device:online:{0}", deviceCode);
+        HashOperations<String, String, String> hash = tokenRedisTemplate.opsForHash();
+        String mobileIdString = hash.get(key, "mobile");
+        return !Strings.isNullOrEmpty(mobileIdString) ? Long.parseLong(mobileIdString) : null;
+    }
+
     /**
      * 将map转化为对象
      *
@@ -87,6 +102,9 @@ public class DeviceRepository {
                         case "back":
                             device.setBack(Boolean.valueOf(value));
                             break;
+                        case "mobile":
+                            device.setMobile(Long.parseLong(value));
+                            return;
                     }
                 });
         return device;

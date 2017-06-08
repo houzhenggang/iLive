@@ -2,12 +2,12 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/izuanqian/izuanqian-api/izuanqian-api.iml" filepath="$PROJECT_DIR$/izuanqian/izuanqian-api/izuanqian-api.iml" />
-      <module fileurl="file://$PROJECT_DIR$/izuanqian/izuanqian-biz/izuanqian-biz.iml" filepath="$PROJECT_DIR$/izuanqian/izuanqian-biz/izuanqian-biz.iml" />
-      <module fileurl="file://$PROJECT_DIR$/izuanqian/izuanqian-client/izuanqian-client.iml" filepath="$PROJECT_DIR$/izuanqian/izuanqian-client/izuanqian-client.iml" />
-      <module fileurl="file://$PROJECT_DIR$/izuanqian/izuanqian-common/izuanqian-common.iml" filepath="$PROJECT_DIR$/izuanqian/izuanqian-common/izuanqian-common.iml" />
-      <module fileurl="file://$PROJECT_DIR$/izuanqian/izuanqian-repository/izuanqian-repository.iml" filepath="$PROJECT_DIR$/izuanqian/izuanqian-repository/izuanqian-repository.iml" />
-      <module fileurl="file://$PROJECT_DIR$/izuanqian/izuanqian-webapi.iml" filepath="$PROJECT_DIR$/izuanqian/izuanqian-webapi.iml" />
+      <module fileurl="file://$PROJECT_DIR$/izuanqian/lovedou-api/lovedou-api.iml" filepath="$PROJECT_DIR$/izuanqian/lovedou-api/lovedou-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/izuanqian/lovedou-biz/lovedou-biz.iml" filepath="$PROJECT_DIR$/izuanqian/lovedou-biz/lovedou-biz.iml" />
+      <module fileurl="file://$PROJECT_DIR$/izuanqian/lovedou-client/lovedou-client.iml" filepath="$PROJECT_DIR$/izuanqian/lovedou-client/lovedou-client.iml" />
+      <module fileurl="file://$PROJECT_DIR$/izuanqian/lovedou-common/lovedou-common.iml" filepath="$PROJECT_DIR$/izuanqian/lovedou-common/lovedou-common.iml" />
+      <module fileurl="file://$PROJECT_DIR$/izuanqian/lovedou-repository/lovedou-repository.iml" filepath="$PROJECT_DIR$/izuanqian/lovedou-repository/lovedou-repository.iml" />
+      <module fileurl="file://$PROJECT_DIR$/izuanqian/lovedou-webapi.iml" filepath="$PROJECT_DIR$/izuanqian/lovedou-webapi.iml" />
     </modules>
   </component>
 </project>

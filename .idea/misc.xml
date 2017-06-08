@@ -8,7 +8,12 @@
         <option value="$PROJECT_DIR$/izuanqian/izuanqian-client/pom.xml" />
         <option value="$PROJECT_DIR$/izuanqian/izuanqian-common/pom.xml" />
         <option value="$PROJECT_DIR$/izuanqian/izuanqian-repository/pom.xml" />
+        <option value="$PROJECT_DIR$/izuanqian/lovedou-repository/pom.xml" />
         <option value="$PROJECT_DIR$/izuanqian/pom.xml" />
+        <option value="$PROJECT_DIR$/izuanqian/lovedou-common/pom.xml" />
+        <option value="$PROJECT_DIR$/izuanqian/lovedou-client/pom.xml" />
+        <option value="$PROJECT_DIR$/izuanqian/lovedou-biz/pom.xml" />
+        <option value="$PROJECT_DIR$/izuanqian/lovedou-api/pom.xml" />
       </list>
     </option>
   </component>

@@ -6,11 +6,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="izuanqian-api" />
-        <module name="izuanqian-biz" />
-        <module name="izuanqian-client" />
-        <module name="izuanqian-common" />
-        <module name="izuanqian-repository" />
+        <module name="lovedou-api" />
+        <module name="lovedou-biz" />
+        <module name="lovedou-client" />
+        <module name="lovedou-common" />
+        <module name="lovedou-repository" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -20,6 +20,12 @@
       <module name="izuanqian-common" target="1.8" />
       <module name="izuanqian-repository" target="1.8" />
       <module name="izuanqian-webapi" target="1.8" />
+      <module name="lovedou-api" target="1.8" />
+      <module name="lovedou-biz" target="1.8" />
+      <module name="lovedou-client" target="1.8" />
+      <module name="lovedou-common" target="1.8" />
+      <module name="lovedou-repository" target="1.8" />
+      <module name="lovedou-webapi" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

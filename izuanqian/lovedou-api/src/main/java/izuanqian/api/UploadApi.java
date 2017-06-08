@@ -23,13 +23,12 @@ import java.io.IOException;
 @io.swagger.annotations.Api(tags = "upload", description = "file upload")
 public class UploadApi {
 
-    @Autowired private FileService fileService;
+    @Autowired
+    private FileService fileService;
 
-    @Autowired private UserPassportService userPassportService;
     @PostMapping
     @ApiOperation(value = "upload image, one by one", response = Api.Ok.class)
     public Api uploadFile(@RequestParam("file") MultipartFile file) throws IOException {
-        userPassportService.create();
         return new Api.Ok("", fileService.save(file).toString());
     }
 

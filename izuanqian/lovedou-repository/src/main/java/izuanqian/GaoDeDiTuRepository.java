@@ -2,6 +2,7 @@ package izuanqian;
 
 import com.google.gson.Gson;
 import izuanqian.amap.GaoDeDiTuClient;
+import izuanqian.user.dbo.DboGaoDeDiTuPoi;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +52,7 @@ public class GaoDeDiTuRepository {
     }
 
     @Async
-    private void cache(List<DboGaoDeDiTuPoi> pois) {
+    void cache(List<DboGaoDeDiTuPoi> pois) {
         HashOperations<String, Object, Object> option = template.opsForHash();
         pois.stream().forEach(poi -> {
                     Map map = new Gson().fromJson(new Gson().toJson(poi), Map.class);
@@ -61,28 +62,5 @@ public class GaoDeDiTuRepository {
         );
     }
 
-    @Data
-    public static class DboGaoDeDiTuPoi {
 
-        private String id;
-        private String title;
-        private String logo;
-        private String tel;
-        private String lng;
-        private String lat;
-        private String address;
-
-        public DboGaoDeDiTuPoi(GaoDeDiTuClient.Vo.Poi poi) {
-
-            this.id = poi.getId();
-            this.title = poi.getName();
-            if (!Objects.isNull(poi.getDomain_list()) && poi.getDomain_list().size() >= 6) {
-                this.logo = poi.getDomain_list().get(5).getValue();
-            }
-            this.tel = poi.getTel();
-            this.lng = poi.getLongitude();
-            this.lat = poi.getLatitude();
-            this.address = poi.getAddress();
-        }
-    }
 }

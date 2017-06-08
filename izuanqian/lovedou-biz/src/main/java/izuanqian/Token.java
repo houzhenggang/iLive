@@ -1,6 +1,6 @@
 package izuanqian;
 
-import izuanqian.device.DbDeviceInformation;
+import izuanqian.user.domain.Mobile;
 import lombok.Data;
 
 /**
@@ -17,11 +17,5 @@ public class Token {
         this.token = token;
         this.deviceType = deviceType;
         this.deviceCode = deviceCode;
-    }
-
-    public Token(String token, DbDeviceInformation device) {
-        this.token = token;
-//        this.deviceType = device.getDeviceType();
-        this.deviceCode = device.getDeviceCode();
     }
 }
