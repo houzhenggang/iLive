@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-public class Mobile {
+public class MobileRb {
 
     @ApiModelProperty private String value;
 }

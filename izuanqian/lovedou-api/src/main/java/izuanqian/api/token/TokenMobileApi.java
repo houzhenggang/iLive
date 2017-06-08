@@ -4,7 +4,7 @@ import io.swagger.annotations.ApiOperation;
 import izuanqian.BizException;
 import izuanqian.DeviceService;
 import izuanqian.TokenService;
-import izuanqian.api.token.o.vo.Mobile;
+import izuanqian.api.token.o.vo.MobileRb;
 import izuanqian.api.token.o.vo.MobileArrayVo;
 import izuanqian.api.token.o.vo.MobileId;
 import izuanqian.response.Api;
@@ -51,7 +51,7 @@ public class TokenMobileApi {
     @ApiOperation("绑定号码")
     public Api bindMobile(
             @RequestHeader(HK_TOKEN) String token,
-            @RequestBody Mobile mobile) {
+            @RequestBody MobileRb mobile) {
         deviceService.bindMobile(token, mobile.getValue());
         return new Api.Ok();
     }
