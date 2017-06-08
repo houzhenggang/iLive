@@ -21,6 +21,8 @@ public class DeviceService {
     @Autowired private TokenService tokenService;
     @Autowired private UserPassportService userPassportService;
 
+    @Autowired private ProfileMapper profileMapper;
+
     /**
      * 通过设备号查询当前设备信息
      *
@@ -40,6 +42,7 @@ public class DeviceService {
      * @param pushDeviceCode
      */
     public void save(DeviceType deviceType, String deviceCode, String pushDeviceCode) {
+        profileMapper.queryByDeviceCode("1");
         deviceRepository.save(deviceType, deviceCode, pushDeviceCode);
     }
 

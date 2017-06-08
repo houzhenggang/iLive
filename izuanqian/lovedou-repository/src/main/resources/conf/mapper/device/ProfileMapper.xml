@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="izuanqian.ProfileMapper">
+
+
+    <select id="queryByDeviceCode" parameterType="java.lang.String"  resultType="izuanqian.user.dbo.DbProfile">
+        SELECT
+            id,
+            code,
+            mobile,
+            nick,
+            gender,
+            device_code deviceCode
+        FROM profile
+        WHERE device_code = #{_parameter}
+    </select>
+
+</mapper>

@@ -7,17 +7,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
  * @author sanlion do
  */
-@Component
+@Service
 public class UserPassportRedisRepository {
 
     @Autowired
@@ -31,8 +34,8 @@ public class UserPassportRedisRepository {
      * @return
      */
     public long nextCode() {
-        String idIncKey = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyyMMddHHmmss"));
-        long initValue = Long.parseLong(idIncKey + "00000");
+        String idIncKey = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddHHmm"));
+        long initValue = Long.parseLong(idIncKey + "00001");
         ValueOperations<String, String> operations = tokenRedisTemplate.opsForValue();
         return operations.increment(idIncKey, tokenRedisTemplate.hasKey(idIncKey) ? 1 : initValue);
     }
