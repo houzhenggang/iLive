@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 public class Mobile {
 
-    @ApiModelProperty private String mobile;
+    @ApiModelProperty private String value;
 }

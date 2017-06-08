@@ -4,9 +4,10 @@ import io.swagger.annotations.ApiOperation;
 import izuanqian.BizException;
 import izuanqian.DeviceService;
 import izuanqian.TokenService;
+import izuanqian.api.token.o.vo.Mobile;
 import izuanqian.api.token.o.vo.MobileArrayVo;
+import izuanqian.api.token.o.vo.MobileId;
 import izuanqian.response.Api;
-import izuanqian.user.domain.Mobile;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -35,7 +36,7 @@ public class TokenMobileApi {
         if (!hasAnyMobile) {
             throw new BizException(17060801, "please bind your mobile first.");
         }
-        List<Mobile> mobiles = tokenService.listMobiles(token);
+        List<izuanqian.user.domain.Mobile> mobiles = tokenService.listMobiles(token);
         if (mobiles.isEmpty()) {
             throw new BizException(17060801, "please bind your mobile first.");
         }
@@ -51,7 +52,7 @@ public class TokenMobileApi {
     public Api bindMobile(
             @RequestHeader(HK_TOKEN) String token,
             @RequestBody Mobile mobile) {
-        deviceService.bindMobile(token, mobile.getMobile());
+        deviceService.bindMobile(token, mobile.getValue());
         return new Api.Ok();
     }
 
@@ -59,8 +60,8 @@ public class TokenMobileApi {
     @ApiOperation("specify current mobile")
     public Api updateCurrentMobile(
             @RequestHeader(HK_TOKEN) String token,
-            @RequestBody Mobile mobile) {
-        tokenService.specifyCurrentMobile(token, mobile.getId());
+            @RequestBody MobileId mobile) {
+        tokenService.specifyCurrentMobile(token, mobile.getValue());
         return new Api.Ok();
     }
 
