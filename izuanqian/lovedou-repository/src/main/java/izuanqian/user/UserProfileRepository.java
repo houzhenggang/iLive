@@ -1,7 +1,10 @@
 package izuanqian.user;
 
+import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
 import izuanqian.Key;
+import izuanqian.ProfileMapper;
+import izuanqian.user.dbo.DbUserProfile;
 import izuanqian.user.dbo.DboMobile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -9,6 +12,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
+import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
@@ -21,11 +25,13 @@ import java.util.stream.Collectors;
  * @author sanlion do
  */
 @Service
-public class UserPassportRedisRepository {
+public class UserProfileRepository {
 
     @Autowired
     @Qualifier("tokenRedisTemplate")
     private StringRedisTemplate tokenRedisTemplate;
+    @Autowired
+    private ProfileMapper profileMapper;
 
 
     /**
@@ -47,13 +53,16 @@ public class UserPassportRedisRepository {
      * @param mobile
      */
     public long bindMobile(String deviceCode, String mobile) {
-        long id = nextCode();
-        tokenRedisTemplate.opsForSet().add(
-                Key.__("device:{0}:mobile", deviceCode),
-                new Gson().toJson(new DboMobile(id, mobile)));
-        return id;
+        long code = nextCode();
+        String id
+                = Hashing.md5().newHasher()
+                .putString("profile", Charset.forName("utf8"))
+                .putLong(code).hash().toString();
+        profileMapper.save(id, code, mobile, deviceCode);
+        return code;
     }
 
+    @Deprecated
     public List<DboMobile> listMobileArray(String deviceCode) {
         String key = Key.__("device:{0}:mobile", deviceCode);
         Set<String> mobiles = tokenRedisTemplate.opsForSet().members(key);
@@ -65,8 +74,18 @@ public class UserPassportRedisRepository {
                 .collect(Collectors.toList());
     }
 
-    public boolean hasAnyMobile(String deviceCode) {
-        String key = Key.__("device:{0}:mobile", deviceCode);
-        return tokenRedisTemplate.opsForSet().size(key).longValue() > 0;
+    public List<DbUserProfile> listUserProfileArray(String deviceCode) {
+        List<DbUserProfile> dbUserProfiles = profileMapper.queryByDeviceCode(deviceCode);
+        return Objects.isNull(dbUserProfiles) || dbUserProfiles.isEmpty() ? Collections.emptyList() : dbUserProfiles;
+    }
+
+    /**
+     * 个人资料计数
+     *
+     * @param deviceCode
+     * @return
+     */
+    public long getProfileCounts(String deviceCode) {
+        return profileMapper.countUserProfile(deviceCode);
     }
 }

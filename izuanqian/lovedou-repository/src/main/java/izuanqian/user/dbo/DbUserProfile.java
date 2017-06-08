@@ -1,19 +1,14 @@
 package izuanqian.user.dbo;
 
-import izuanqian.DeviceType;
-import lombok.Builder;
 import lombok.Data;
 
-/**
- * @author sanlion do
- */
 @Data
-@Builder
 public class DbUserProfile {
 
-    private String id;
-    private long code;
-    private DeviceType deviceType;
+    private long id;
+    private String code;
+    private String mobile;
+    private String nick;
+    private int gender;
     private String deviceCode;
-    private String pushDeviceCode;
 }

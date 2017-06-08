@@ -14,7 +14,7 @@ public class RegionService {
     @Autowired private ThirdKeyManager thirdKeyManager;
 
     /**
-     * get recommend address
+     * getOnlineDevice recommend address
      *
      * @param lng
      * @param lat

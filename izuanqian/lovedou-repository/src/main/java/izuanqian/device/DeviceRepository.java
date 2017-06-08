@@ -9,11 +9,9 @@ import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.Objects;
 
 import static izuanqian.Key.__;
-import static izuanqian.Times.__;
 
 /**
  * @author sanlion do
@@ -21,6 +19,8 @@ import static izuanqian.Times.__;
 @Slf4j
 @Component
 public class DeviceRepository {
+
+
 
     /*
     以hash的结构进行存储
@@ -34,6 +34,8 @@ public class DeviceRepository {
     @Autowired
     @Qualifier("tokenRedisTemplate")
     private StringRedisTemplate tokenRedisTemplate;
+    @Autowired
+    private DeviceMapper deviceMapper;
 
     /**
      * save device information
@@ -44,26 +46,44 @@ public class DeviceRepository {
      */
     public void save(
             DeviceType deviceType, String deviceCode, String pushDeviceCode) {
-        HashOperations<String, String, String> hash = tokenRedisTemplate.opsForHash();
-        String key = __("device:online:{0}", deviceCode);
-        hash.putAll(key, new HashMap<String, String>() {{
-            put("type", deviceType.name());
-            put("code", deviceCode);
-            put("pushCode", pushDeviceCode);
-        }});
+        String key = "device:online";
+        tokenRedisTemplate.opsForHash()
+                .put(
+                        key,
+                        deviceCode,
+                        new CachedOnlineDevice() {{
+                            setCode(deviceCode);
+                            setPushCode(pushDeviceCode);
+                            setState(DbDeviceInformation.DeviceState.Foreground);
+                            setType(deviceType);
+                        }});
+
+        // todo db不保存即时性信息：pushCode，state
+        deviceMapper.saveDevice(deviceType.getCode(), deviceCode);
     }
 
-    public void updateBackState(String deviceCode, boolean isBack) {
-        HashOperations<String, String, String> hash = tokenRedisTemplate.opsForHash();
-        String key = __("device:online:{0}", deviceCode);
-        hash.put(key, "back", String.valueOf(isBack));
+    public void updateBackState(String deviceCode, DbDeviceInformation.DeviceState state) {
+        String key = "device:online";
+        HashOperations<String, String, CachedOnlineDevice> hash = tokenRedisTemplate.opsForHash();
+        CachedOnlineDevice cachedOnlineDevice = hash.get(key, deviceCode);
+        if (Objects.isNull(cachedOnlineDevice)) {
+            return;
+        }
+        cachedOnlineDevice.setState(state);
+        hash.put(key, deviceCode, cachedOnlineDevice);
     }
 
-    public DbDeviceInformation get(String deviceCode) {
-        HashOperations<String, String, String> hash = tokenRedisTemplate.opsForHash();
-        String key = __("device:online:{0}", deviceCode);
-        Map<String, String> entries = hash.entries(key);
-        return toDevice(entries);
+    /**
+     * 仅查询在线设备信息
+     *
+     * @param deviceCode
+     * @return
+     */
+    public DbDeviceInformation getOnlineDevice(String deviceCode) {
+        String key = "device:online";
+        HashOperations<String, String, CachedOnlineDevice> hash = tokenRedisTemplate.opsForHash();
+        CachedOnlineDevice cachedOnlineDevice = hash.get(key, deviceCode);
+        return Objects.nonNull(cachedOnlineDevice) ? new DbDeviceInformation(cachedOnlineDevice) : null;
     }
 
     public void bindCurrentMobile(String deviceCode, long mobileId) {
@@ -77,36 +97,5 @@ public class DeviceRepository {
         HashOperations<String, String, String> hash = tokenRedisTemplate.opsForHash();
         String mobileIdString = hash.get(key, "mobile");
         return !Strings.isNullOrEmpty(mobileIdString) ? Long.parseLong(mobileIdString) : null;
-    }
-
-    /**
-     * 将map转化为对象
-     *
-     * @param entries
-     * @return
-     */
-    private DbDeviceInformation toDevice(Map<String, String> entries) {
-        DbDeviceInformation device = new DbDeviceInformation();
-        entries.forEach(
-                (key, value) -> {
-                    switch (key) {
-                        case "type":
-                            device.setDeviceType(DeviceType.valueOf(value));
-                            break;
-                        case "code":
-                            device.setDeviceCode(value);
-                            break;
-                        case "pushCode":
-                            device.setPushDeviceCode(value);
-                            break;
-                        case "back":
-                            device.setBack(Boolean.valueOf(value));
-                            break;
-                        case "mobile":
-                            device.setMobile(Long.parseLong(value));
-                            return;
-                    }
-                });
-        return device;
     }
 }

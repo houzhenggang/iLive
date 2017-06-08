@@ -66,7 +66,7 @@ public class TokenService {
 
     public boolean hasAnyMobile(String token){
         String deviceCode = get(token);
-        return deviceService.checkHasAnyMobile(deviceCode);
+        return deviceService.checkHasAnyProfile(deviceCode);
     }
 
     public void specifyCurrentMobile(String token, long mobileId){

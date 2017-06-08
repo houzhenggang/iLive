@@ -1,6 +1,7 @@
 package izuanqian.user.dbo;
 
 import lombok.Data;
+import lombok.Getter;
 
 @Data
 public class CachedProfile {
@@ -14,6 +15,11 @@ public class CachedProfile {
 
     public enum Gender {
 
-        M, F
+        M(1), F(2);
+        @Getter private int code;
+
+        Gender(int code) {
+            this.code = code;
+        }
     }
 }

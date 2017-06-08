@@ -2,7 +2,7 @@ package izuanqian;
 
 import izuanqian.device.DbDeviceInformation;
 import izuanqian.device.DeviceRepository;
-import izuanqian.user.UserPassportService;
+import izuanqian.user.UserProfileService;
 import izuanqian.user.domain.Mobile;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +19,7 @@ public class DeviceService {
 
     @Autowired private DeviceRepository deviceRepository;
     @Autowired private TokenService tokenService;
-    @Autowired private UserPassportService userPassportService;
-
-    @Autowired private ProfileMapper profileMapper;
+    @Autowired private UserProfileService userPassportService;
 
     /**
      * 通过设备号查询当前设备信息
@@ -30,7 +28,7 @@ public class DeviceService {
      * @return
      */
     public Device byCode(String code) {
-        DbDeviceInformation dbDeviceInformation = deviceRepository.get(code);
+        DbDeviceInformation dbDeviceInformation = deviceRepository.getOnlineDevice(code);
         return new Device(dbDeviceInformation);
     }
 
@@ -42,18 +40,17 @@ public class DeviceService {
      * @param pushDeviceCode
      */
     public void save(DeviceType deviceType, String deviceCode, String pushDeviceCode) {
-        profileMapper.queryByDeviceCode("1");
         deviceRepository.save(deviceType, deviceCode, pushDeviceCode);
     }
 
     public void updateAppState2Background(String token) {
         String deviceCode = tokenService.get(token);
-        deviceRepository.updateBackState(deviceCode, true);
+        deviceRepository.updateBackState(deviceCode, DbDeviceInformation.DeviceState.Background);
     }
 
     public void updateAppState2Foreground(String token) {
         String deviceCode = tokenService.get(token);
-        deviceRepository.updateBackState(deviceCode, false);
+        deviceRepository.updateBackState(deviceCode, DbDeviceInformation.DeviceState.Foreground);
     }
 
     public Mobile getCurrentMobile(String deviceCode) {
@@ -90,8 +87,8 @@ public class DeviceService {
         deviceRepository.bindCurrentMobile(deviceCode, mobileId);
     }
 
-    public boolean checkHasAnyMobile(String deviceCode) {
-        return userPassportService.hasAnyMobile(deviceCode);
+    public boolean checkHasAnyProfile(String deviceCode) {
+        return userPassportService.hasAnyProfile(deviceCode);
     }
 
 
