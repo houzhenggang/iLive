@@ -35,8 +35,7 @@ public class DeviceRepository {
     @Autowired
     @Qualifier("tokenRedisTemplate")
     private StringRedisTemplate tokenRedisTemplate;
-    @Autowired
-    private DeviceMapper deviceMapper;
+    @Autowired private DeviceMapper deviceMapper;
 
     /**
      * save device information
@@ -47,21 +46,26 @@ public class DeviceRepository {
      */
     public void save(
             DeviceType deviceType, String deviceCode, String pushDeviceCode) {
-        String key = "device:online";
-        tokenRedisTemplate.opsForHash()
-                .put(
-                        key,
-                        deviceCode,
-                        new Gson().toJson(
-                                new CachedOnlineDevice() {{
-                                    setCode(deviceCode);
-                                    setPushCode(pushDeviceCode);
-                                    setState(DbDeviceInformation.DeviceState.Foreground);
-                                    setType(deviceType);
-                                }}));
 
         // todo db不保存即时性信息：pushCode，state
-        deviceMapper.saveDevice(deviceType.getCode(), deviceCode);
+        boolean hasAny = deviceMapper.hasAny(deviceCode);
+        if (!hasAny) {
+            deviceMapper.saveDevice(deviceType.getCode(), deviceCode);
+
+            // todo 保存在线设备信息
+            String key = "device:online";
+            tokenRedisTemplate.opsForHash()
+                    .put(
+                            key,
+                            deviceCode,
+                            new Gson().toJson(
+                                    new CachedOnlineDevice() {{
+                                        setCode(deviceCode);
+                                        setPushCode(pushDeviceCode);
+                                        setState(DbDeviceInformation.DeviceState.Foreground);
+                                        setType(deviceType);
+                                    }}));
+        }
     }
 
     public void updateBackState(String deviceCode, DbDeviceInformation.DeviceState state) {

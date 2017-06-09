@@ -2,6 +2,7 @@ package izuanqian;
 
 import izuanqian.user.dbo.DbProfile;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -24,7 +25,11 @@ public interface ProfileMapper {
      * @param mobile
      * @param deviceCode
      */
-    void save(String id, long code, String mobile, String deviceCode);
+    void save(
+            @Param("id") String id,
+            @Param("code") long code,
+            @Param("mobile") String mobile,
+            @Param("deviceCode") String deviceCode);
 
     /**
      * 资料计数

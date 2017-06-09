@@ -22,7 +22,7 @@
         WHERE device_code = #{_parameter}
     </select>
 
-    <insert id="save" parameterType="java.util.Map">
+    <insert id="save">
         INSERT INTO PROFILE
         (
             ID, CODE, MOBILE, device_code

@@ -20,7 +20,7 @@ public interface DeviceMapper {
      * @param code
      * @param state
      */
-    void updateDeviceState(String code, int state);
+    void updateDeviceState(@Param("code") String code, @Param("state") int state);
 
     /**
      * 设备详情
@@ -29,4 +29,12 @@ public interface DeviceMapper {
      * @return
      */
     DbDevice byCode(String code);
+
+    /**
+     * 是否含有指定code的设备记录
+     *
+     * @param code
+     * @return
+     */
+    boolean hasAny(String code);
 }

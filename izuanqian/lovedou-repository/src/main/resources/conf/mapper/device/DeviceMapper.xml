@@ -6,18 +6,22 @@
         INSERT INTO device (type, code) VALUES (#{type}, #{code})
     </insert>
 
-    <update id="updateDeviceState" parameterType="java.util.Map">
+    <update id="updateDeviceState">
         UPDATE device
         SET state = #{state}
         WHERE code = #{code}
     </update>
 
-    <select id="byCode" parameterType="java.util.Map" resultType="izuanqian.device.DbDevice">
+    <select id="byCode" resultType="izuanqian.device.DbDevice">
         SELECT
             type,
-            code,
-            push_code pushCode,
-            state
+            code
+        FROM device
+        WHERE code = #{_parameter}
+    </select>
+
+    <select id="hasAny" resultType="java.lang.Boolean">
+        SELECT count(1)
         FROM device
         WHERE code = #{_parameter}
     </select>
