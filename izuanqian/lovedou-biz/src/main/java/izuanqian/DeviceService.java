@@ -62,13 +62,13 @@ public class DeviceService {
 
     public void bindMobile(String token, String mobile) {
         String deviceCode = tokenService.get(token);
-        long mobileId = userPassportService.bindMobile(deviceCode, mobile);
+        long userProfileId = userPassportService.bindMobile(deviceCode, mobile);
         // 并且指定为当前设备的默认号码
-        specifyCurrentMobile(token, mobileId);
+        specifyCurrentProfile(deviceCode, userProfileId);
     }
 
-    public void specifyCurrentMobile(String deviceCode, long mobileId) {
-        deviceRepository.bindCurrentMobile(deviceCode, mobileId);
+    public void specifyCurrentProfile(String deviceCode, long userProfileId) {
+        deviceRepository.bindCurrentMobile(deviceCode, userProfileId);
     }
 
     public boolean checkHasAnyProfile(String deviceCode) {

@@ -80,6 +80,6 @@ public class TokenService {
 
     public void specifyCurrentMobile(String token, long mobileId) {
 
-        deviceService.specifyCurrentMobile(get(token), mobileId);
+        deviceService.specifyCurrentProfile(get(token), mobileId);
     }
 }
