@@ -9,8 +9,7 @@ import org.springframework.beans.BeanUtils;
 @Data
 public class UserProfile {
 
-    private String id;
-    private long code;
+    private long id;
     private String mobile;
     private String nick;
     private CachedProfile.Gender gender;

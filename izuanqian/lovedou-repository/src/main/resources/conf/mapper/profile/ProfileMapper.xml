@@ -7,7 +7,6 @@
     <select id="queryByDeviceCode" parameterType="java.lang.String" resultType="izuanqian.user.dbo.DbProfile">
         SELECT
             id,
-            code,
             mobile,
             nick,
             gender,
@@ -25,11 +24,11 @@
     <insert id="save">
         INSERT INTO profile
         (
-            ID, CODE, MOBILE, device_code
+            ID, MOBILE, device_code
         )
         VALUES
             (
-                #{id}, #{code}, #{mobile}, #{deviceCode}
+                #{id}, #{mobile}, #{deviceCode}
             )
     </insert>
 

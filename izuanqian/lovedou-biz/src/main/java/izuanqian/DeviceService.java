@@ -4,6 +4,7 @@ import izuanqian.device.DbDeviceInformation;
 import izuanqian.device.DeviceRepository;
 import izuanqian.user.UserProfileService;
 import izuanqian.user.domain.Mobile;
+import izuanqian.user.domain.UserProfile;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -53,16 +54,16 @@ public class DeviceService {
         deviceRepository.updateBackState(deviceCode, DbDeviceInformation.DeviceState.Foreground);
     }
 
-    public Mobile getCurrentMobile(String deviceCode) {
+    public UserProfile getCurrentMobile(String deviceCode) {
         Long currentMobileId = deviceRepository.getCurrentMobileId(deviceCode);
         if (Objects.isNull(currentMobileId)) {
             return null;
         }
-        List<Mobile> mobiles = userPassportService.listMobiles(deviceCode);
-        if (mobiles.isEmpty()) {
+        List<UserProfile> userProfiles = userPassportService.listUserProfiles(deviceCode);
+        if (userProfiles.isEmpty()) {
             return null;
         }
-        return mobiles.stream()
+        return userProfiles.stream()
                 .filter(mobile -> currentMobileId.equals(mobile.getId()))
                 .findAny().orElseGet(null);
     }

@@ -21,13 +21,11 @@ public interface ProfileMapper {
      * 初始化插入profile
      *
      * @param id
-     * @param code
      * @param mobile
      * @param deviceCode
      */
     void save(
-            @Param("id") String id,
-            @Param("code") long code,
+            @Param("id") long id,
             @Param("mobile") String mobile,
             @Param("deviceCode") String deviceCode);
 

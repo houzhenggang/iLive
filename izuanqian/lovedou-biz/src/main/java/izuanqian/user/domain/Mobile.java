@@ -7,14 +7,9 @@ import lombok.Data;
 @Data
 public class Mobile {
 
-    private String id;
+    private long id;
     private String mobile;
 
-    public Mobile(DboMobile dboMobile) {
-
-        this.id = dboMobile.getId();
-        this.mobile = dboMobile.getMobile();
-    }
 
     public Mobile(UserProfile userProfile) {
         this.id = userProfile.getId();

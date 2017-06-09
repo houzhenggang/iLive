@@ -55,9 +55,9 @@ public class TokenService {
         return deviceCode;
     }
 
-    public Mobile validAndGet(String token) {
+    public UserProfile validAndGet(String token) {
         String deviceCode = get(token);
-        Mobile mobile = deviceService.getCurrentMobile(deviceCode);
+        UserProfile mobile = deviceService.getCurrentMobile(deviceCode);
         if (Objects.isNull(mobile)) {
             throw new BizException(17060801, "please bind your mobile first.");
         }

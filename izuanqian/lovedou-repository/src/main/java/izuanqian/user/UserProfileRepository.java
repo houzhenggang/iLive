@@ -1,6 +1,5 @@
 package izuanqian.user;
 
-import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
 import izuanqian.BizException;
 import izuanqian.Key;
@@ -13,7 +12,6 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 
-import java.nio.charset.Charset;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
@@ -59,11 +57,7 @@ public class UserProfileRepository {
             throw new BizException(17060901, "the mobile has bind already.");
         }
         long code = nextCode();
-        String id
-                = Hashing.md5().newHasher()
-                .putString("profile", Charset.forName("utf8"))
-                .putLong(code).hash().toString();
-        profileMapper.save(id, code, mobile, deviceCode);
+        profileMapper.save(code, mobile, deviceCode);
         return code;
     }
 
