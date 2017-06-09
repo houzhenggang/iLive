@@ -32,7 +32,7 @@ public class SubjectApi {
     @Autowired private DeviceService deviceService;
     @Autowired private SubjectService subjectService;
 
-    @GetMapping
+    @GetMapping("/list")
     @ApiOperation(value = "list available profile array.", response = SubjectProfileArrayVo.class)
     public Api listProfileArray(
             @RequestHeader(HK_TOKEN) String token) {
