@@ -3,6 +3,7 @@ package izuanqian.api.token.o.vo;
 import io.swagger.annotations.ApiModelProperty;
 import izuanqian.Mobiles;
 import izuanqian.user.domain.Mobile;
+import izuanqian.user.domain.UserProfile;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -24,6 +25,11 @@ public class MobileArrayVo {
         public MobileVo(Mobile mobile) {
             this.id = mobile.getId();
             this.mobile = Mobiles.asterisk(mobile.getMobile());
+        }
+
+        public MobileVo(UserProfile userProfile) {
+            this.id = userProfile.getId();
+            this.mobile = Mobiles.asterisk(userProfile.getMobile());
         }
     }
 }

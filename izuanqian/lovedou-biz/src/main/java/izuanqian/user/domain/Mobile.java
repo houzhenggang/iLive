@@ -1,7 +1,5 @@
 package izuanqian.user.domain;
 
-import izuanqian.user.dbo.DbProfile;
-import izuanqian.user.dbo.DboMobile;
 import lombok.Data;
 
 @Data

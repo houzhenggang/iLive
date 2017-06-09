@@ -3,13 +3,11 @@ package izuanqian;
 import izuanqian.device.DbDeviceInformation;
 import izuanqian.device.DeviceRepository;
 import izuanqian.user.UserProfileService;
-import izuanqian.user.domain.Mobile;
 import izuanqian.user.domain.UserProfile;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Objects;
 
 /**
@@ -59,13 +57,7 @@ public class DeviceService {
         if (Objects.isNull(currentMobileId)) {
             return null;
         }
-        List<UserProfile> userProfiles = userPassportService.listUserProfiles(deviceCode);
-        if (userProfiles.isEmpty()) {
-            return null;
-        }
-        return userProfiles.stream()
-                .filter(mobile -> currentMobileId.equals(mobile.getId()))
-                .findAny().orElseGet(null);
+        return userPassportService.byId(currentMobileId);
     }
 
     public void bindMobile(String token, String mobile) {

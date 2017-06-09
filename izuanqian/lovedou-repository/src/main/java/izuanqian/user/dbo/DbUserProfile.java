@@ -3,7 +3,7 @@ package izuanqian.user.dbo;
 import lombok.Data;
 
 @Data
-public class DbProfile {
+public class DbUserProfile {
 
     private long id;
     private String mobile;

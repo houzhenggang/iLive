@@ -2,7 +2,7 @@ package izuanqian.user.domain;
 
 import izuanqian.DBType;
 import izuanqian.user.dbo.CachedProfile;
-import izuanqian.user.dbo.DbProfile;
+import izuanqian.user.dbo.DbUserProfile;
 import lombok.Data;
 import org.springframework.beans.BeanUtils;
 
@@ -15,8 +15,8 @@ public class UserProfile {
     private CachedProfile.Gender gender;
     private String deviceCode;
 
-    public UserProfile(DbProfile dbProfile) {
-        BeanUtils.copyProperties(dbProfile, this);
-        this.gender = DBType.type(CachedProfile.Gender.class, dbProfile.getGender());
+    public UserProfile(DbUserProfile dbUserProfile) {
+        BeanUtils.copyProperties(dbUserProfile, this);
+        this.gender = DBType.type(CachedProfile.Gender.class, dbUserProfile.getGender());
     }
 }

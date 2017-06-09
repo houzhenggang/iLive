@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import izuanqian.BizException;
 import izuanqian.Key;
 import izuanqian.ProfileMapper;
-import izuanqian.user.dbo.DbProfile;
+import izuanqian.user.dbo.DbUserProfile;
 import izuanqian.user.dbo.DboMobile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -73,9 +73,9 @@ public class UserProfileRepository {
                 .collect(Collectors.toList());
     }
 
-    public List<DbProfile> listUserProfileArray(String deviceCode) {
-        List<DbProfile> dbProfiles = profileMapper.queryByDeviceCode(deviceCode);
-        return Objects.isNull(dbProfiles) || dbProfiles.isEmpty() ? Collections.emptyList() : dbProfiles;
+    public List<DbUserProfile> listUserProfileArray(String deviceCode) {
+        List<DbUserProfile> dbUserProfiles = profileMapper.queryByDeviceCode(deviceCode);
+        return Objects.isNull(dbUserProfiles) || dbUserProfiles.isEmpty() ? Collections.emptyList() : dbUserProfiles;
     }
 
     /**
@@ -96,10 +96,14 @@ public class UserProfileRepository {
      * @return
      */
     public boolean hasMobileBind(String deviceCode, String mobile) {
-        List<DbProfile> dbProfiles = profileMapper.queryByDeviceCode(deviceCode);
+        List<DbUserProfile> dbUserProfiles = profileMapper.queryByDeviceCode(deviceCode);
         return
-                Objects.nonNull(dbProfiles)
-                        && !dbProfiles.isEmpty()
-                        && dbProfiles.stream().anyMatch(dbProfile -> mobile.equals(dbProfile.getMobile()));
+                Objects.nonNull(dbUserProfiles)
+                        && !dbUserProfiles.isEmpty()
+                        && dbUserProfiles.stream().anyMatch(dbProfile -> mobile.equals(dbProfile.getMobile()));
+    }
+
+    public DbUserProfile byId(long id) {
+        return profileMapper.byId(id);
     }
 }
