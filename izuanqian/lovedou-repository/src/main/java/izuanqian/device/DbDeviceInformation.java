@@ -1,6 +1,5 @@
 package izuanqian.device;
 
-import izuanqian.DBType;
 import izuanqian.DeviceType;
 import lombok.Data;
 import lombok.Getter;
@@ -22,21 +21,7 @@ public class DbDeviceInformation implements Serializable {
     private long mobile;
     private DeviceState state;
 
-    public DbDeviceInformation(DeviceType deviceType, String deviceCode) {
-        this.deviceType = deviceType;
-        this.deviceCode = deviceCode;
-        this.back = false;
-    }
-
-    public DbDeviceInformation(DbDevice dbDevice) {
-
-        this.deviceType = DBType.type(DeviceType.class, dbDevice.getType());
-        this.deviceCode = dbDevice.getCode();
-        this.pushDeviceCode = dbDevice.getPushCode();
-        this.state = DBType.type(DeviceState.class, dbDevice.getState());
-    }
-
-    public DbDeviceInformation(CachedOnlineDevice cachedOnlineDevice){
+    public DbDeviceInformation(CachedOnlineDevice cachedOnlineDevice) {
 
         this.deviceType = cachedOnlineDevice.getType();
         this.deviceCode = cachedOnlineDevice.getCode();
