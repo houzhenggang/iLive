@@ -67,15 +67,6 @@ public class DeviceService {
                 .findAny().orElseGet(null);
     }
 
-    public boolean checkMobileHasBind(String deviceCode, String mobile) {
-        List<Mobile> mobiles = userPassportService.listMobiles(deviceCode);
-        if (mobiles.isEmpty()) {
-            return false;
-        }
-        return mobiles.stream()
-                .anyMatch(m -> mobile.equals(m.getMobile()));
-    }
-
     public void bindMobile(String token, String mobile) {
         String deviceCode = tokenService.get(token);
         long mobileId = userPassportService.bindMobile(deviceCode, mobile);

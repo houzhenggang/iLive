@@ -5,10 +5,10 @@ import lombok.Data;
 @Data
 public class DboMobile {
 
-    private long id;
+    private String id;
     private String mobile;
 
-    public DboMobile(long id, String mobile) {
+    public DboMobile(String id, String mobile) {
         this.id = id;
         this.mobile = mobile;
     }

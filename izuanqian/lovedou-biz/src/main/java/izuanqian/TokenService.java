@@ -3,7 +3,9 @@ package izuanqian;
 import com.google.common.base.Strings;
 import com.google.common.hash.Hashing;
 import izuanqian.im.IMService;
+import izuanqian.user.UserProfileService;
 import izuanqian.user.domain.Mobile;
+import izuanqian.user.domain.UserProfile;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 /**
  * by sanlion do
@@ -22,6 +25,7 @@ public class TokenService {
     @Autowired private TokenRepository tokenRepository;
     @Autowired private IMService imService;
     @Autowired private DeviceService deviceService;
+    @Autowired private UserProfileService userProfileService;
 
     /**
      * generate token by device
@@ -51,7 +55,7 @@ public class TokenService {
         return deviceCode;
     }
 
-    public Mobile validAndGet(String token){
+    public Mobile validAndGet(String token) {
         String deviceCode = get(token);
         Mobile mobile = deviceService.getCurrentMobile(deviceCode);
         if (Objects.isNull(mobile)) {
@@ -60,16 +64,21 @@ public class TokenService {
         return mobile;
     }
 
-    public List<Mobile> listMobiles(String token){
-        return Collections.emptyList();
+    public List<Mobile> listMobiles(String token) {
+        String deviceCode = get(token);
+        if (!hasAnyMobile(token)) {
+            return Collections.emptyList();
+        }
+        List<UserProfile> userProfiles = userProfileService.listUserProfiles(deviceCode);
+        return userProfiles.stream().map(userProfile -> new Mobile(userProfile)).collect(Collectors.toList());
     }
 
-    public boolean hasAnyMobile(String token){
+    public boolean hasAnyMobile(String token) {
         String deviceCode = get(token);
         return deviceService.checkHasAnyProfile(deviceCode);
     }
 
-    public void specifyCurrentMobile(String token, long mobileId){
+    public void specifyCurrentMobile(String token, long mobileId) {
 
         deviceService.specifyCurrentMobile(get(token), mobileId);
     }

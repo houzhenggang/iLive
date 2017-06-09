@@ -8,6 +8,7 @@ import izuanqian.api.token.o.vo.MobileRb;
 import izuanqian.api.token.o.vo.MobileArrayVo;
 import izuanqian.api.token.o.vo.MobileId;
 import izuanqian.response.Api;
+import izuanqian.user.UserProfileService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,6 +28,7 @@ public class TokenMobileApi {
 
     @Autowired private TokenService tokenService;
     @Autowired private DeviceService deviceService;
+    @Autowired private UserProfileService userProfileService;
 
     @GetMapping
     @ApiOperation(value = "号码列表", response = MobileArrayVo.class)
