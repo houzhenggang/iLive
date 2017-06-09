@@ -63,7 +63,7 @@ public class DeviceService {
             return null;
         }
         return mobiles.stream()
-                .filter(mobile -> currentMobileId.longValue() == mobile.getId())
+                .filter(mobile -> currentMobileId.equals(mobile.getId()))
                 .findAny().orElseGet(null);
     }
 

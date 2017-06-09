@@ -17,7 +17,7 @@ public class MobileArrayVo {
     public static class MobileVo {
 
         @ApiModelProperty("id")
-        private long id;
+        private String id;
         @ApiModelProperty("号码")
         private String mobile;
 
