@@ -18,6 +18,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 /**
@@ -40,9 +41,16 @@ public class UserProfileRepository {
      */
     public long nextCode() {
         String idIncKey = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyMMddHHmm"));
-        long initValue = Long.parseLong(idIncKey + "00001");
         ValueOperations<String, String> operations = tokenRedisTemplate.opsForValue();
-        return operations.increment(idIncKey, tokenRedisTemplate.hasKey(idIncKey) ? 1 : initValue);
+        boolean hasKey = tokenRedisTemplate.hasKey(idIncKey);
+        if (!hasKey) {
+            long initValue = Long.parseLong(idIncKey + "00001");
+            long code = operations.increment(idIncKey, initValue).longValue();
+            // expire, 1min
+            tokenRedisTemplate.expire(idIncKey, 1, TimeUnit.MINUTES);
+            return code;
+        }
+        return operations.increment(idIncKey, 1);
     }
 
     /**
