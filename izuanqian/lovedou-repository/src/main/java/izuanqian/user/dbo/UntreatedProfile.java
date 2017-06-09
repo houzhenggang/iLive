@@ -3,11 +3,10 @@ package izuanqian.user.dbo;
 import lombok.Data;
 
 @Data
-public class DbUserProfile {
+public class UntreatedProfile {
 
-    private long id;
-    private String mobile;
+    private long deviceId;
+    private String avatar;
     private String nick;
     private int gender;
-    private boolean active;
 }

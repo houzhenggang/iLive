@@ -14,6 +14,7 @@ public interface ProfileMapper {
      *
      * @param deviceCode
      * @return
+     * @deprecated
      */
     List<DbUserProfile> queryByDeviceCode(String deviceCode);
 

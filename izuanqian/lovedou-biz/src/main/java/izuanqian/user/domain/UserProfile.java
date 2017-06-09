@@ -14,6 +14,7 @@ public class UserProfile {
     private String nick;
     private CachedProfile.Gender gender;
     private String deviceCode;
+    private boolean active;
 
     public UserProfile(DbUserProfile dbUserProfile) {
         BeanUtils.copyProperties(dbUserProfile, this);

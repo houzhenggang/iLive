@@ -106,4 +106,10 @@ public class DeviceRepository {
         String mobileIdString = hash.get(key, "mobile");
         return !Strings.isNullOrEmpty(mobileIdString) ? Long.parseLong(mobileIdString) : null;
     }
+
+    public void clearProfile(String deviceCode){
+        String key = __("device:online:{0}", deviceCode);
+        HashOperations<String, String, String> hash = tokenRedisTemplate.opsForHash();
+
+    }
 }

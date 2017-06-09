@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="izuanqian.user.UntreatedProfileMapper">
+
+    <select id="byDeviceId" resultType="izuanqian.user.dbo.DbUntreatedProfile">
+        SELECT
+            device_id   deviceId,
+            avatar,
+            nick,
+            gender,
+            city_code   cityCode,
+            county_code countyCode
+        FROM profile_untreated
+        WHERE device_id = #{_parameter}
+    </select>
+
+</mapper>

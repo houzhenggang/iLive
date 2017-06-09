@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="izuanqian.device.SubjectMapper">
+
+    <insert id="associate">
+        INSERT INTO subject (device_id, profile_id) VALUES (#{deviceId}, #{userProfileId})
+    </insert>
+
+    <update id="inactiveAll">
+        UPDATE subject
+        SET active = 0
+        WHERE device_code = #{_parameter} AND active = 1
+    </update>
+
+    <update id="active">
+        UPDATE subject
+        SET active = 1
+        WHERE device_code = #{deviceCode} AND profile_id = #{userProfileId} AND active = 0
+    </update>
+
+    <select id="alreadyBound" resultType="java.lang.Boolean">
+        SELECT count(1)
+        FROM subject
+        WHERE device_id = #{deviceId} AND profile_id = #{userProfileId}
+    </select>
+
+    <select id="listUserProfileByDevice" resultType="izuanqian.user.dbo.DbUserProfile">
+        SELECT
+            p.id,
+            p.nick,
+            p.gender,
+            p.mobile,
+            a.active
+        FROM (SELECT
+                  s.profile_id,
+                  s.active
+              FROM subject s
+              WHERE s.device_code = #{_parameter}) a
+            INNER JOIN profile p ON p.id = a.profile_id;
+    </select>
+
+    <select id="fetchActiveProfile" resultType="izuanqian.user.dbo.DbUserProfile">
+        SELECT
+            p.id,
+            p.nick,
+            p.gender,
+            p.mobile,
+            a.active
+        FROM (SELECT
+                  s.profile_id,
+                  s.active
+              FROM subject s
+              WHERE s.device_code = #{_parameter} AND s.active = 1) a
+            INNER JOIN profile p ON p.id = a.profile_id;
+    </select>
+
+</mapper>

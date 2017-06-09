@@ -9,8 +9,7 @@
             id,
             mobile,
             nick,
-            gender,
-            device_code deviceCode
+            gender
         FROM profile
         WHERE device_code = #{_parameter}
     </select>
@@ -26,8 +25,7 @@
             id,
             mobile,
             nick,
-            gender,
-            device_code deviceCode
+            gender
         FROM profile
         WHERE id = #{_parameter}
     </select>
@@ -35,11 +33,11 @@
     <insert id="save">
         INSERT INTO profile
         (
-            ID, MOBILE, device_code
+            ID, MOBILE
         )
         VALUES
             (
-                #{id}, #{mobile}, #{deviceCode}
+                #{id}, #{mobile}
             )
     </insert>
 
