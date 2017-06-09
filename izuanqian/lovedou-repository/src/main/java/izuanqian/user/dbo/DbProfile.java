@@ -5,8 +5,8 @@ import lombok.Data;
 @Data
 public class DbProfile {
 
-    private long id;
-    private String code;
+    private String id;
+    private long code;
     private String mobile;
     private String nick;
     private int gender;
