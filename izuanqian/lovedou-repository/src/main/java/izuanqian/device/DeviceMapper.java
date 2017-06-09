@@ -1,6 +1,7 @@
 package izuanqian.device;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 @Mapper
 public interface DeviceMapper {
@@ -11,7 +12,7 @@ public interface DeviceMapper {
      * @param type
      * @param code
      */
-    void saveDevice(int type, String code);
+    void saveDevice(@Param("type") int type, @Param("code") String code);
 
     /**
      * 更新设备的前后台信息
@@ -23,6 +24,7 @@ public interface DeviceMapper {
 
     /**
      * 设备详情
+     *
      * @param code
      * @return
      */
