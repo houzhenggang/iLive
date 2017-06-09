@@ -43,7 +43,7 @@ public class TokenMobileApi {
             throw new BizException(17060801, "please bind your mobile first.");
         }
         MobileArrayVo mobileArrayVo = new MobileArrayVo();
-        mobiles.stream().map(
+        mobiles.stream().forEach(
                 mobile ->
                         mobileArrayVo.getMobiles().add(new MobileArrayVo.MobileVo(mobile)));
         return new Api.Ok("", mobileArrayVo);
