@@ -23,7 +23,7 @@
     </select>
 
     <insert id="save">
-        INSERT INTO PROFILE
+        INSERT INTO profile
         (
             ID, CODE, MOBILE, device_code
         )
