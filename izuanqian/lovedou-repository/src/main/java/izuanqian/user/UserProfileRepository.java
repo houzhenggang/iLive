@@ -2,6 +2,7 @@ package izuanqian.user;
 
 import com.google.common.hash.Hashing;
 import com.google.gson.Gson;
+import izuanqian.BizException;
 import izuanqian.Key;
 import izuanqian.ProfileMapper;
 import izuanqian.user.dbo.DbProfile;
@@ -53,6 +54,10 @@ public class UserProfileRepository {
      * @param mobile
      */
     public long bindMobile(String deviceCode, String mobile) {
+        boolean hasMobileBind = hasMobileBind(deviceCode, mobile);
+        if (hasMobileBind) {
+            throw new BizException(17060901, "the mobile has bind already.");
+        }
         long code = nextCode();
         String id
                 = Hashing.md5().newHasher()
@@ -87,5 +92,20 @@ public class UserProfileRepository {
      */
     public long getProfileCounts(String deviceCode) {
         return profileMapper.countUserProfile(deviceCode);
+    }
+
+    /**
+     * 校验号码是否被绑定
+     *
+     * @param deviceCode
+     * @param mobile
+     * @return
+     */
+    public boolean hasMobileBind(String deviceCode, String mobile) {
+        List<DbProfile> dbProfiles = profileMapper.queryByDeviceCode(deviceCode);
+        return
+                Objects.nonNull(dbProfiles)
+                        && !dbProfiles.isEmpty()
+                        && dbProfiles.stream().anyMatch(dbProfile -> mobile.equals(dbProfile.getMobile()));
     }
 }
