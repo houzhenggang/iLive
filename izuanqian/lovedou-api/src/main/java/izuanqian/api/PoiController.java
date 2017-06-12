@@ -2,19 +2,18 @@ package izuanqian.api;
 
 import com.google.gson.Gson;
 import io.swagger.annotations.ApiOperation;
-import izuanqian.GaoDeDiTuRepository;
-import izuanqian.MeiTuanWaiMaiPoiRepository;
-import izuanqian.PoiSearch;
-import izuanqian.PoiSearchService;
+import izuanqian.*;
 import izuanqian.api.poi.PoiTribeApi;
 import izuanqian.baidu.BaiduClient;
-import izuanqian.baidu.LocationVo;
+import izuanqian.baidu.vo.LocationVo;
 import izuanqian.response.Api;
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static izuanqian.ApiHeader.*;
 
@@ -27,6 +26,7 @@ import static izuanqian.ApiHeader.*;
 public class PoiController {
 
     @Autowired private PoiSearchService poiSearchService;
+    @Autowired private BaiduPoiService baiduPoiService;
 
     @GetMapping
     @ApiOperation(value = "/兴趣点", response = PoiSearch.class)
@@ -72,10 +72,33 @@ public class PoiController {
     @GetMapping("/baidu/test")
     @ApiOperation(value = "百度逆地址解析", response = String.class)
     public Api test(@RequestHeader(HK_LONGITUDE) double lng,
-                    @RequestHeader(HK_LATITUDE) double lat) {
+                    @RequestHeader(HK_LATITUDE) double lat,
+                    @RequestParam String keyword) {
         String ak = "z5js42W2np1ws91jEuLnuQyytgIBdyyT";
         String location = new StringBuilder(String.valueOf(lat)).append(",").append(String.valueOf(lng)).toString();
         String demo = baiduClient.demo(location, ak);
         return new Api.Ok("", new Gson().fromJson(demo, LocationVo.class));
+    }
+
+    @GetMapping("/baidu/search")
+    @ApiOperation(value = "10km范围内的餐饮", response = SearchPoiVo.class)
+    public Api search(@RequestHeader(HK_LONGITUDE) double lng,
+                      @RequestHeader(HK_LATITUDE) double lat,
+                      @RequestParam String keyword) {
+        String ak = "z5js42W2np1ws91jEuLnuQyytgIBdyyT";
+        List<BaiduPoiService.Poi> search = baiduPoiService.search(lng, lat, keyword);
+        List<SearchPoiVo> vo = search.stream().map(poi -> new SearchPoiVo() {{
+            setName(poi.getName());
+            setAddress(poi.getAddress());
+        }}).collect(Collectors.toList());
+        return new Api.Ok("", vo);
+    }
+
+
+    @Data
+    public static class SearchPoiVo {
+
+        private String name;
+        private String address;
     }
 }

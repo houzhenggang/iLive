@@ -1,4 +1,4 @@
-package izuanqian.baidu;
+package izuanqian.baidu.vo;
 
 import lombok.Data;
 
