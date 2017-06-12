@@ -12,7 +12,7 @@ public interface BaiduClient {
      * @param location lat,lng
      * @return
      */
-    @RequestMapping(value = "/geocoder/v2/?output=json", method = RequestMethod.GET)
+    @RequestMapping(value = "/geocoder/v2/?output=json&pois=1", method = RequestMethod.GET)
     String demo(
             @RequestParam("location") String location,
             @RequestParam("ak") String baidukey
