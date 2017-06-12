@@ -72,8 +72,7 @@ public class PoiController {
     @GetMapping("/baidu/test")
     @ApiOperation(value = "百度逆地址解析", response = String.class)
     public Api test(@RequestHeader(HK_LONGITUDE) double lng,
-                    @RequestHeader(HK_LATITUDE) double lat,
-                    @RequestParam String keyword) {
+                    @RequestHeader(HK_LATITUDE) double lat) {
         String ak = "z5js42W2np1ws91jEuLnuQyytgIBdyyT";
         String location = new StringBuilder(String.valueOf(lat)).append(",").append(String.valueOf(lng)).toString();
         String demo = baiduClient.demo(location, ak);
