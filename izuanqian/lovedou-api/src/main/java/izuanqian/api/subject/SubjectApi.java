@@ -2,11 +2,8 @@ package izuanqian.api.subject;
 
 import io.swagger.annotations.ApiOperation;
 import izuanqian.BizException;
-import izuanqian.DeviceService;
 import izuanqian.TokenService;
 import izuanqian.api.subject.o.vo.SubjectProfileArrayVo;
-import izuanqian.api.token.o.vo.MobileArrayVo;
-import izuanqian.api.token.o.vo.MobileId;
 import izuanqian.response.Api;
 import izuanqian.user.SubjectService;
 import izuanqian.user.domain.UserProfile;
@@ -29,7 +26,6 @@ import static izuanqian.ApiHeader.HK_TOKEN;
 public class SubjectApi {
 
     @Autowired private TokenService tokenService;
-    @Autowired private DeviceService deviceService;
     @Autowired private SubjectService subjectService;
 
     @GetMapping("/list")

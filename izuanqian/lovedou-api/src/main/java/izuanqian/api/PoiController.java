@@ -1,11 +1,14 @@
 package izuanqian.api;
 
+import com.google.gson.Gson;
 import io.swagger.annotations.ApiOperation;
 import izuanqian.GaoDeDiTuRepository;
 import izuanqian.MeiTuanWaiMaiPoiRepository;
 import izuanqian.PoiSearch;
 import izuanqian.PoiSearchService;
 import izuanqian.api.poi.PoiTribeApi;
+import izuanqian.baidu.BaiduClient;
+import izuanqian.baidu.LocationVo;
 import izuanqian.response.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -63,4 +66,16 @@ public class PoiController {
 
     @Autowired private MeiTuanWaiMaiPoiRepository meiTuanWaiMaiPoiRepository;
     @Autowired private GaoDeDiTuRepository gaoDeDiTuRepository;
+
+    @Autowired private BaiduClient baiduClient;
+
+    @GetMapping("/baidu/test")
+    @ApiOperation(value = "百度逆地址解析", response = String.class)
+    public Api test(@RequestHeader(HK_LONGITUDE) double lng,
+                    @RequestHeader(HK_LATITUDE) double lat) {
+        String ak = "z5js42W2np1ws91jEuLnuQyytgIBdyyT";
+        String location = new StringBuilder(String.valueOf(lat)).append(",").append(String.valueOf(lng)).toString();
+        String demo = baiduClient.demo(location, ak);
+        return new Api.Ok("", new Gson().fromJson(demo, LocationVo.class));
+    }
 }
