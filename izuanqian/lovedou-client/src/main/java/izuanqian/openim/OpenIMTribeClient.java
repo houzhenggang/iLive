@@ -45,24 +45,24 @@ public class OpenIMTribeClient {
         OpenimTribeDismissResponse response = im.client().execute(request);
     }
 
-    public void join(String token, long id) throws ApiException {
+    public void join(String uid, long id) throws ApiException {
         OpenimTribeJoinRequest request = new OpenimTribeJoinRequest();
         request.setTribeId(id);
-        request.setUser(user(token));
+        request.setUser(user(uid));
         OpenimTribeJoinResponse execute = im.client().execute(request);
     }
 
-    public void quit(String token, long id) throws ApiException {
+    public void quit(String uid, long id) throws ApiException {
         OpenimTribeQuitRequest request = new OpenimTribeQuitRequest();
         request.setTribeId(id);
-        request.setUser(user(token));
+        request.setUser(user(uid));
         OpenimTribeQuitResponse execute = im.client().execute(request);
     }
 
-    private OpenImUser user(String token) {
+    private OpenImUser user(String uid) {
         return new OpenImUser() {
             {
-                setUid(token);
+                setUid(uid);
                 setAppKey(OpenApi.appKey);
                 setTaobaoAccount(Boolean.FALSE);
             }

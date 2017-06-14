@@ -59,9 +59,9 @@ public class PoiController {
             @RequestHeader(required = false, value = HK_LATITUDE) double lat,
             @RequestHeader(required = false, value = "city") String city,
             @RequestParam(required = false, defaultValue = "美食") String keyword) throws IOException {
-
+        List<GaoDeDiTuRepository.DboGaoDeDiTuPoi> search = gaoDeDiTuRepository.search(city, lng, lat, keyword);
         return new Api.Ok("",
-                gaoDeDiTuRepository.search(city, lng, lat, keyword));
+                search.subList(0, Math.min(search.size(), 5)));
     }
 
     @Autowired private MeiTuanWaiMaiPoiRepository meiTuanWaiMaiPoiRepository;

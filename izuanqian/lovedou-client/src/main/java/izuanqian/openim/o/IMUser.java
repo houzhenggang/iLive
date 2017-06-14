@@ -20,14 +20,14 @@ public class IMUser {
     private String gender;
     private String extra; // json扩展字段
 
-    public IMUser(String token, String nick, String avatar, String gender) {
+    public IMUser(String deviceCode, String nick, String avatar, String gender) {
 
-        this.id = token;
+        this.id = deviceCode;
         this.password = "2A137A220F394038"; // md5(sanion.do)
         this.nick = nick;
         this.avatar = avatar;
         this.gender = gender;
-        this.extra = new Gson().toJson(new Extra(token));
+        this.extra = new Gson().toJson(new Extra(deviceCode));
     }
 
     public String token() {
