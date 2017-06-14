@@ -51,7 +51,7 @@ public class IMTribeService {
     public void join(long tribe, String token) {
         String deviceCode = tokenService.get(token);
         try {
-            openIMTribeClient.join(token, tribe);
+            openIMTribeClient.join(deviceCode, tribe);
         } catch (ApiException ex) {
             throw new BizException(ex.getMessage());
         }
