@@ -18,7 +18,7 @@ import java.io.IOException;
  */
 @Slf4j
 @RestController
-@RequestMapping("/image")
+@RequestMapping("/upload")
 @io.swagger.annotations.Api(tags = "upload", description = "file upload")
 public class UploadApi {
 
